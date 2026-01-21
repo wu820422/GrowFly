@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ChevronRight, Clock, ArrowLeft, Share2, ShoppingCart, Rocket, Headphones } from 'lucide-react';
+import { ChevronRight, Clock, ArrowLeft, Share2, MessageCircle, Rocket } from 'lucide-react';
 import { JOURNAL_ARTICLES, PRODUCTS } from '../constants';
 import { Product } from '../types';
 
@@ -13,6 +13,7 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({ onAddToCart }) => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [scrollProgress, setScrollProgress] = useState(0);
+  const lineLink = "https://line.me/R/ti/p/@growway";
 
   const article = JOURNAL_ARTICLES.find(a => a.id === id);
 
@@ -190,17 +191,23 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({ onAddToCart }) => {
               </div>
             </div>
 
-            <div className="bg-slate-900 p-12 md:p-16 rounded-[20px] text-center text-white space-y-10 relative overflow-hidden shadow-xl">
-               <div className="absolute top-0 right-0 w-64 h-64 bg-[#A7C7E7]/5 rounded-full -mr-32 -mt-32 blur-3xl" />
+            {/* LINE CTA Section - 已替換掉原本的電子報訂閱 */}
+            <div className="bg-slate-900 p-12 md:p-16 rounded-[40px] text-center text-white space-y-10 relative overflow-hidden shadow-2xl">
+               <div className="absolute top-0 right-0 w-80 h-80 bg-[#A7C7E7]/10 rounded-full -mr-40 -mt-40 blur-3xl" />
                <div className="space-y-4 relative z-10">
-                 <h3 className="text-3xl font-black tracking-tight">不錯過任何一則科學建議</h3>
-                 <p className="text-white/50 font-medium text-base">加入 GrowFly 成長週報，掌握孩子的黃金發展期。</p>
+                 <h3 className="text-3xl md:text-4xl font-black tracking-tight">加入銀禾生醫官方 LINE</h3>
+                 <p className="text-white/60 font-medium text-base md:text-lg">領取 $100 首購金，再享營養師一對一諮詢。</p>
                </div>
-               <div className="flex flex-col sm:flex-row justify-center gap-4 relative z-10">
-                  <div className="flex-grow max-w-sm flex bg-white/10 rounded-full p-1.5 border border-white/10">
-                     <input type="text" placeholder="您的電子信箱" className="bg-transparent px-6 py-2 text-sm text-white outline-none flex-grow placeholder:text-white/20" />
-                     <button className="bg-white text-slate-900 px-6 py-2 rounded-full font-black text-xs hover:bg-[#A7C7E7] transition-all">訂閱</button>
-                  </div>
+               <div className="flex justify-center relative z-10">
+                  <a 
+                    href={lineLink}
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="bg-[#06C755] text-white px-12 py-5 rounded-full font-black text-xl hover:bg-[#05b34c] transition-all shadow-xl shadow-[#06C755]/20 flex items-center space-x-4 active:scale-95 group"
+                  >
+                    <MessageCircle size={28} className="fill-current group-hover:rotate-12 transition-transform" />
+                    <span>立即加入好友</span>
+                  </a>
                </div>
             </div>
           </footer>

@@ -26,14 +26,21 @@ const Shop: React.FC<ShopProps> = ({ onAddToCart }) => {
   ];
 
   return (
-    <div className="pt-20 md:pt-32 space-y-0 bg-[#FDFBF7]">
-      <section className="relative py-24 md:py-32 overflow-hidden bg-[#FDFBF7]">
-        <div className="absolute inset-0 opacity-5 pointer-events-none">
-          <div className="absolute top-10 left-10 w-64 h-64 border border-slate-300 rounded-full" />
-          <div className="absolute -bottom-20 -right-20 w-96 h-96 border border-slate-300 rounded-[20px] rotate-45" />
-        </div>
-        <div className="container-custom text-center space-y-8 relative z-10">
-          <h1 className="text-4xl md:text-6xl font-black text-slate-800 tracking-tight leading-tight">
+    <div className="pt-20 md:pt-32 space-y-0 bg-[#FDFBF7] min-h-screen">
+      <style>{`
+        .product-card-aura {
+          box-shadow: 0 40px 100px -20px rgba(167, 199, 231, 0.35);
+        }
+        .filter-btn-active {
+          background-color: #1E293B;
+          color: white;
+        }
+      `}</style>
+
+      {/* Hero Header */}
+      <section className="relative py-16 md:py-24 overflow-hidden">
+        <div className="container-custom text-center space-y-6 relative z-10">
+          <h1 className="text-4xl md:text-6xl font-black text-[#1E293B] tracking-tight leading-tight">
             專屬台灣兒童的<br className="md:hidden" />營養拼圖
           </h1>
           <p className="text-lg md:text-xl text-slate-500 font-medium max-w-2xl mx-auto leading-relaxed">
@@ -42,16 +49,17 @@ const Shop: React.FC<ShopProps> = ({ onAddToCart }) => {
         </div>
       </section>
 
-      <section className="container-custom pb-16">
-        <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+      {/* Filter Tabs - 完美還原截圖樣式 */}
+      <section className="container-custom pb-16 sticky top-24 z-40">
+        <div className="flex flex-wrap justify-center gap-2 md:gap-4 bg-white/40 backdrop-blur-md p-2 rounded-full w-fit mx-auto shadow-sm border border-white/50">
           {categories.map((cat) => (
             <button
               key={cat.id}
               onClick={() => setFilter(cat.id as any)}
-              className={`px-8 py-2.5 rounded-full font-black text-xs transition-all shadow-sm border ${
+              className={`px-6 md:px-10 py-2.5 rounded-full font-black text-[10px] md:text-[11px] tracking-wider transition-all uppercase ${
                 filter === cat.id 
-                ? 'bg-slate-800 text-white border-slate-800 shadow-xl' 
-                : 'bg-white text-slate-400 border-slate-100 hover:border-slate-200 hover:text-slate-600'
+                ? 'bg-[#1E293B] text-white shadow-lg' 
+                : 'text-slate-400 hover:text-slate-600'
               }`}
             >
               {cat.label}
@@ -60,73 +68,81 @@ const Shop: React.FC<ShopProps> = ({ onAddToCart }) => {
         </div>
       </section>
 
+      {/* Product Grid - 依照截圖佈局 */}
       <section className="container-custom pb-32">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-14">
           {filteredProducts.map((product) => (
             <div 
               key={product.id} 
-              className="bg-white rounded-[20px] p-6 shadow-sm hover:shadow-xl transition-all group flex flex-col h-full border border-slate-50"
+              className="group flex flex-col h-full animate-in fade-in slide-in-from-bottom-8 duration-700"
             >
               <Link to={`/product/${product.id}`} className="flex flex-col flex-grow">
-                {/* 修正：移除 p-4 並改為 object-cover 以達成正方形滿版效果 */}
+                {/* Image Container with Shadow/Aura - 滿版優化 */}
                 <div 
-                  className="aspect-square rounded-[20px] relative overflow-hidden mb-8"
-                  style={{ backgroundColor: `${product.color}15` }}
+                  className={`aspect-square rounded-[2.5rem] relative overflow-hidden mb-8 transition-all duration-500 bg-white border border-slate-50 ${
+                    product.category === 'growth' ? 'product-card-aura' : 'shadow-xl shadow-slate-200/50 hover:shadow-2xl'
+                  }`}
                 >
+                  {/* Status Badge - 完美還原截圖樣式 */}
                   {product.status && (
-                    <div className="absolute top-5 left-5 z-20">
-                      <span className="bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-[9px] font-black text-slate-800 shadow-sm uppercase tracking-widest border border-slate-100">
+                    <div className="absolute top-6 left-6 z-20">
+                      <span className="bg-white/95 backdrop-blur-md px-5 py-2 rounded-full text-[9px] font-black text-slate-800 shadow-xl border border-white uppercase tracking-widest">
                         {product.status}
                       </span>
                     </div>
                   )}
                   
+                  {/* Background Glow */}
+                  <div className="absolute inset-0 bg-[#F8FAFC] opacity-40" />
+                  
+                  {/* 圖片設置為 object-cover 並移除 padding 實現滿版 */}
                   <img 
                     src={product.image} 
                     alt={product.name} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 z-10 relative"
                   />
                   
-                  <div className="absolute bottom-5 right-5 w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-slate-400 shadow-lg group-hover:rotate-12 transition-transform">
-                    {product.category === 'growth' && <Moon size={20} />}
-                    {product.category === 'digest' && <ShieldCheck size={20} />}
-                    {product.category === 'vision' && <Eye size={20} />}
-                    {product.category === 'bundle' && <Plus size={20} />}
+                  {/* Category Icon Badge - 完美還原截圖 */}
+                  <div className="absolute bottom-6 right-6 w-11 h-11 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-slate-400 shadow-xl z-20 group-hover:rotate-12 transition-transform">
+                    {product.category === 'growth' && <Moon size={22} />}
+                    {product.category === 'digest' && <ShieldCheck size={22} />}
+                    {product.category === 'vision' && <Eye size={22} />}
+                    {product.category === 'bundle' && <Plus size={22} />}
                   </div>
                 </div>
 
-                <div className="px-2 flex-grow space-y-3">
+                {/* Content Area */}
+                <div className="px-4 space-y-4 flex-grow">
                   <div className="space-y-1">
-                    <h3 className="text-xl font-black text-slate-800 group-hover:text-[#A7C7E7] transition-colors">
+                    <h3 className="text-2xl md:text-3xl font-black text-[#1E293B] group-hover:text-[#A7C7E7] transition-colors tracking-tight">
                       {product.name}
                     </h3>
-                    <p className="text-[10px] font-black text-slate-400 tracking-widest uppercase">
+                    <p className="text-[10px] font-black text-slate-400 tracking-[0.2em] uppercase">
                       {product.shortDesc}
                     </p>
                   </div>
                   
-                  <p className="text-base font-black text-[#A7C7E7] leading-tight">
-                    「{product.oneLiner}」
+                  <p className="text-lg font-black text-[#A7C7E7] tracking-tight leading-tight">
+                    {product.oneLiner}
                   </p>
                 </div>
               </Link>
 
-              <div className="px-2 pt-6 flex items-end justify-between border-t border-slate-50 mt-8">
+              {/* Price & Action - 依照截圖精確排版 */}
+              <div className="px-4 pt-8 flex items-end justify-between border-t border-slate-50 mt-8">
                 <div className="space-y-1">
                   {product.originalPrice && (
-                    <span className="text-[10px] text-slate-400 line-through block">NT$ {product.originalPrice.toLocaleString()}</span>
+                    <span className="text-[11px] text-slate-300 line-through font-bold block">NT$ {product.originalPrice.toLocaleString()}</span>
                   )}
-                  <span className="text-xl font-black text-slate-800">NT$ {product.price.toLocaleString()}</span>
+                  <span className="text-2xl md:text-3xl font-black text-[#1E293B] tracking-tighter">NT$ {product.price.toLocaleString()}</span>
                 </div>
-                <div className="flex gap-2">
-                  <button 
-                    onClick={() => onAddToCart(product)}
-                    className="px-5 h-10 rounded-full bg-slate-800 text-white flex items-center gap-2 font-black text-[10px] hover:bg-slate-700 transition-all shadow-lg"
-                  >
-                    <ShoppingCart size={14} />
-                    <span>+ 購物車</span>
-                  </button>
-                </div>
+                <button 
+                  onClick={() => onAddToCart(product)}
+                  className="px-7 h-12 rounded-full bg-[#1E293B] text-white flex items-center gap-3 font-black text-[11px] hover:bg-slate-700 transition-all shadow-xl active:scale-95"
+                >
+                  <ShoppingCart size={16} />
+                  <span>+ 購物車</span>
+                </button>
               </div>
             </div>
           ))}

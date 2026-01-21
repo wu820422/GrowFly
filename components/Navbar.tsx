@@ -1,7 +1,7 @@
 
-import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingCart, User, Search, Menu, X } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
 
 interface NavbarProps {
   cartCount: number;
@@ -31,22 +31,24 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onCartClick }) => {
   const isHome = location.pathname === '/';
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
 
-  // 品牌 Logo 組件 - 處理精確的黑白顏色切換
-  const Logo = ({ className = "", forceDark = false }: { className?: string, forceDark?: boolean }) => {
-    // 判斷當前狀態：是否應該呈現「黑色」
-    // 如果是強迫黑色 (如頁尾、登入頁) OR 已捲動 OR 不在首頁
-    const shouldBeBlack = forceDark || isScrolled || !isHome;
+  /**
+   * 品牌 Logo 組件
+   * 依據背景自動切換「白名稱」或「彩色名稱黑色」Logo
+   */
+  const Logo = ({ className = "", forceVariant }: { className?: string, forceVariant?: 'white' | 'dark' }) => {
+    // 邏輯：如果是首頁且未滾動 (影片背景) -> 用白名稱；其餘 -> 用彩色名稱黑色
+    const useWhite = forceVariant === 'white' || (!forceVariant && isHome && !isScrolled);
     
+    const logoUrl = useWhite 
+      ? "https://lh3.googleusercontent.com/d/1c-qP6aO_zpqV8acYLCYJ-BPQkoCQu2ig" // 白名稱 Logo
+      : "https://lh3.googleusercontent.com/d/1hwy5HElimSOkg2URhHTroZ1nXN1lrGNd"; // 彩色名稱黑色 Logo
+
     return (
       <div className={`flex items-center justify-center transition-all duration-500 ${className}`}>
         <img 
-          src="https://lh3.googleusercontent.com/d/1cJGWr5-GBdsO0MxpWB01ZseaohfK-gEB" 
-          alt="GrowFly Logo" 
-          className={`w-20 h-20 md:w-32 md:h-32 object-contain transition-all duration-700 hover:scale-105 ${
-            shouldBeBlack 
-              ? 'brightness-0' // 強制變為純黑色，與文字一致
-              : 'brightness-0 invert' // 先變黑再反轉，確保變為純白色
-          }`}
+          src={logoUrl} 
+          alt="銀禾生醫 Silver River Biotech" 
+          className="w-32 h-16 md:w-56 md:h-24 object-contain transition-all duration-700 hover:scale-105"
         />
       </div>
     );
@@ -54,10 +56,10 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onCartClick }) => {
 
   if (isAuthPage) {
     return (
-      <header className="fixed top-0 left-0 right-0 z-50 h-[100px] bg-transparent flex items-center">
+      <header className="absolute top-0 left-0 right-0 z-50 h-[100px] flex items-center">
         <div className="container-custom flex justify-center md:justify-start">
           <Link to="/" className="hover:opacity-80 transition-opacity">
-            <Logo forceDark={true} />
+            <Logo forceVariant="dark" />
           </Link>
         </div>
       </header>

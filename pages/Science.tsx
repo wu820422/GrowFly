@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
@@ -216,7 +215,8 @@ const Science: React.FC = () => {
                 >
                   <div className={`w-full flex flex-col items-center transition-all duration-700 ${activePlanet === item.id ? 'opacity-0 scale-75 -translate-y-10' : 'animate-planet'}`}>
                     <div className="w-24 h-24 md:w-28 md:h-28 bg-white/80 rounded-[2rem] md:rounded-[2.5rem] flex items-center justify-center text-slate-700 mb-8 md:mb-10 shadow-inner border border-white">
-                      {React.cloneElement(item.icon as React.ReactElement, { size: 48 })}
+                      {/* Fix: cast to React.ReactElement<any> to allow size prop */}
+                      {React.cloneElement(item.icon as React.ReactElement<any>, { size: 48 })}
                     </div>
                     <div className="space-y-3 md:space-y-4 text-center">
                       <span className="inline-block px-4 py-1.5 bg-white/80 rounded-full text-[9px] md:text-[10px] font-black text-[#A7C7E7] tracking-[0.2em] uppercase shadow-sm">
@@ -228,7 +228,8 @@ const Science: React.FC = () => {
 
                   <div className={`absolute inset-0 bg-white/95 backdrop-blur-xl p-8 md:p-10 flex flex-col justify-center text-center transition-all duration-500 transform ${activePlanet === item.id ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}>
                     <div className="mb-6 mx-auto w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-[#A7C7E7]">
-                       {React.cloneElement(item.icon as React.ReactElement, { size: 20 })}
+                       {/* Fix: cast to React.ReactElement<any> to allow size prop */}
+                       {React.cloneElement(item.icon as React.ReactElement<any>, { size: 20 })}
                     </div>
                     <div className="space-y-6 md:space-y-8">
                       <div className="space-y-1">
@@ -269,7 +270,8 @@ const Science: React.FC = () => {
                 <div key={i} className="flex items-center justify-between p-5 md:p-7 bg-white rounded-[1.5rem] md:rounded-[2rem] border border-slate-100 shadow-sm transition-all hover:translate-x-4 hover:shadow-xl group">
                    <div className="flex items-center gap-4 md:gap-6">
                      <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-[#C1D7C1]/10 flex items-center justify-center text-[#C1D7C1] group-hover:scale-110 transition-transform">
-                        <CheckCircle2 size={20} md:size={24} />
+                        {/* Fix: removed invalid md:size prop and set size to 24 */}
+                        <CheckCircle2 size={24} />
                      </div>
                      <div className="space-y-0.5">
                        <span className="block font-black text-slate-800 text-base md:text-lg tracking-tight">{r.title}</span>
@@ -300,14 +302,16 @@ const Science: React.FC = () => {
                    ))}
                    <div className="absolute bottom-10 right-10 w-16 h-16 md:w-24 md:h-24 flex items-center justify-center">
                       <div className="absolute inset-0 border border-emerald-500/20 rounded-full animate-[spin_10s_linear_infinite]" />
-                      <CheckCircle2 size={24} md:size={32} className="text-emerald-500/20" />
+                      {/* Fix: use responsive Tailwind classes for size and remove invalid md:size */}
+                      <CheckCircle2 className="w-6 h-6 md:w-8 md:h-8 text-emerald-500/20" />
                    </div>
                 </div>
                 <div className="animate-scan" />
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-700 pointer-events-none z-30">
                    <div className="bg-emerald-500/90 backdrop-blur-xl text-white px-6 py-3 md:px-10 md:py-5 rounded-full font-black flex flex-col items-center justify-center shadow-[0_20px_50px_rgba(16,185,129,0.4)] border border-emerald-400/50 scale-100 group-hover:scale-110 transition-transform">
                      <div className="flex items-center gap-2 md:gap-3 mb-1">
-                        <CheckCircle2 size={20} md:size={28} />
+                        {/* Fix: use responsive Tailwind classes for size and remove invalid md:size */}
+                        <CheckCircle2 className="w-5 h-5 md:w-7 md:h-7" />
                         <span className="text-sm md:text-lg tracking-widest">SGS VERIFIED</span>
                      </div>
                      <span className="text-[8px] md:text-[10px] opacity-60 tracking-[0.3em] font-medium hidden sm:block">CERTIFICATE ID: GF-2025-X01</span>
@@ -334,11 +338,11 @@ const Science: React.FC = () => {
               <div className="grid grid-cols-2 gap-6 md:gap-8 pt-6 md:pt-8">
                  <div className="space-y-1 md:space-y-2">
                     <p className="text-3xl md:text-4xl font-black text-[#A7C7E7] tracking-tighter">10k+</p>
-                    <p className="text-[9px] md:text-[10px] font-black text-white/30 uppercase tracking-[0.2em]">活躍成長檔案</p>
+                    <p className="text-[9px] md:text-[10px] font-black text-white/30 uppercase tracking-widest opacity-30">活躍成長檔案</p>
                  </div>
                  <div className="space-y-1 md:space-y-2">
                     <p className="text-3xl md:text-4xl font-black text-[#C1D7C1] tracking-tighter">98%</p>
-                    <p className="text-[9px] md:text-[10px] font-black text-white/30 uppercase tracking-[0.2em]">家長信賴回購</p>
+                    <p className="text-[9px] md:text-[10px] font-black text-white/30 uppercase tracking-widest opacity-30">家長信賴回購</p>
                  </div>
               </div>
            </div>
@@ -347,7 +351,8 @@ const Science: React.FC = () => {
               <div className="bg-white/5 backdrop-blur-xl rounded-[2.5rem] md:rounded-[3rem] p-8 md:p-12 border border-white/10 space-y-8 md:space-y-10 shadow-2xl max-w-lg mx-auto md:mx-0">
                  <div className="flex items-center justify-between border-b border-white/5 pb-6 md:pb-8">
                     <div className="flex items-center gap-3 md:gap-4">
-                       <Database className="text-[#A7C7E7]" size={20} md:size={24} />
+                       {/* Fix: use responsive Tailwind classes for size and remove invalid md:size */}
+                       <Database className="text-[#A7C7E7] w-5 h-5 md:w-6 md:h-6" />
                        <span className="font-black tracking-widest uppercase text-[10px] md:text-xs text-white/60">Command Center</span>
                     </div>
                     <div className="flex items-center gap-2">

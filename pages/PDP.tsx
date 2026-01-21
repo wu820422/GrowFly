@@ -20,7 +20,12 @@ const PDP: React.FC<PDPProps> = ({ onAddToCart }) => {
   const [purchasePlan, setPurchasePlan] = useState<'once' | 'bundle' | 'sub'>('sub');
 
   const product = useMemo(() => {
-    return PRODUCTS.find(p => p.id === id) || PRODUCTS[0];
+    // 使用用戶提供的新圖片 URL
+    const p = PRODUCTS.find(p => p.id === id) || PRODUCTS[0];
+    if (p.id === 'growfly-30') {
+      return { ...p, image: 'https://lh3.googleusercontent.com/d/1LItYovvJTkq2sO4MxNmGg-1CFuhrA-5C' };
+    }
+    return p;
   }, [id]);
 
   const plans = {
@@ -49,6 +54,9 @@ const PDP: React.FC<PDPProps> = ({ onAddToCart }) => {
         .animate-breathing {
           animation: breathing 3s ease-in-out infinite;
         }
+        .blue-aura-shadow {
+          box-shadow: 0 40px 100px -20px rgba(167, 199, 231, 0.4);
+        }
       `}</style>
 
       {/* Breadcrumb */}
@@ -60,91 +68,95 @@ const PDP: React.FC<PDPProps> = ({ onAddToCart }) => {
         </nav>
       </div>
 
-      {/* Hero Section: Product Focus */}
-      <section className="container-custom py-10 md:py-16 grid lg:grid-cols-2 gap-12 md:gap-20 items-center border-b border-slate-50">
-        {/* Left: Interactive Image Display */}
+      {/* Hero Section: 完美還原截圖佈局 */}
+      <section className="container-custom py-10 md:py-16 grid lg:grid-cols-2 gap-12 md:gap-20 items-center">
+        {/* Left: Product Image with Blue Aura Background - 滿版設置 */}
         <div className="relative group">
-          <div className="aspect-square bg-white rounded-[3rem] md:rounded-[4rem] overflow-hidden shadow-2xl relative border border-slate-50 flex items-center justify-center p-12">
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#A7C7E7]/5 to-transparent pointer-events-none" />
+          <div className="aspect-square bg-white rounded-[3rem] md:rounded-[4rem] overflow-hidden blue-aura-shadow relative border border-slate-50 flex items-center justify-center p-0">
+            {/* 核心藍色背景光暈 */}
+            <div className="absolute inset-0 bg-[#F1F5F9] opacity-40" />
+            
+            {/* 圖片設置為 object-cover 並移除 padding 實現滿版 */}
             <img 
               src={product.image} 
               alt={product.name} 
-              className="w-full h-full object-contain animate-float drop-shadow-[0_30px_60px_rgba(0,0,0,0.12)]" 
+              className="w-full h-full object-cover transition-all duration-700 z-10" 
             />
-            {/* 懸浮標籤 */}
-            <div className="absolute top-10 right-10 bg-white/80 backdrop-blur-md px-6 py-3 rounded-2xl shadow-xl border border-white flex items-center space-x-3 animate-bounce">
-              <Sparkles className="text-[#A7C7E7]" size={20} />
-              <span className="text-xs font-black text-slate-800">成長關鍵營養</span>
+            
+            {/* 懸浮標籤 - 完美還原截圖 */}
+            <div className="absolute top-8 right-8 md:top-12 md:right-12 bg-white/90 backdrop-blur-md px-5 py-2.5 rounded-2xl shadow-xl border border-white flex items-center space-x-3 z-20">
+              <Sparkles className="text-[#A7C7E7]" size={18} />
+              <span className="text-[10px] font-black text-slate-800">成長關鍵營養</span>
             </div>
           </div>
-          <div className="absolute -z-10 -bottom-10 -left-10 w-64 h-64 bg-[#C1D7C1]/20 rounded-full blur-3xl animate-pulse" />
         </div>
 
-        {/* Right: Purchase Control */}
-        <div className="flex flex-col space-y-8 md:space-y-10">
+        {/* Right: Info & Controls - 依照截圖精確間距 */}
+        <div className="flex flex-col space-y-6 md:space-y-8">
           <div className="space-y-4">
             <div className="inline-flex items-center space-x-2 px-4 py-1.5 bg-[#A7C7E7]/10 rounded-full">
               <Shield size={12} className="text-[#A7C7E7]" />
-              <span className="text-[10px] font-black text-[#A7C7E7] tracking-[0.3em] uppercase underline decoration-2 underline-offset-4">Lab Verified Formula</span>
+              <span className="text-[9px] font-black text-[#A7C7E7] tracking-[0.3em] uppercase underline decoration-2 underline-offset-4">LAB VERIFIED FORMULA</span>
             </div>
-            <h1 className="text-4xl md:text-6xl font-black text-slate-800 tracking-tight leading-none">
+            <h1 className="text-4xl md:text-7xl font-black text-[#1E293B] tracking-tight leading-none">
               {product.name}
             </h1>
             <div className="flex items-center space-x-4">
               <div className="flex text-amber-400">
-                {[1, 2, 3, 4].map((s) => <Star key={s} size={18} fill="currentColor" />)}
-                <StarHalf size={18} fill="currentColor" />
+                {[1, 2, 3, 4].map((s) => <Star key={s} size={16} fill="currentColor" />)}
+                <StarHalf size={16} fill="currentColor" />
               </div>
-              <span className="text-sm font-bold text-slate-400">4.9 / 5.0 (來自 1,280+ 位家長實測)</span>
+              <span className="text-[11px] font-bold text-slate-400 tracking-wide uppercase">4.9 / 5.0 (來自 1,280+ 位家長實測)</span>
             </div>
-            <p className="text-lg text-slate-500 font-medium leading-relaxed">
+            <p className="text-base md:text-lg text-slate-500 font-medium leading-relaxed max-w-xl">
               {product.description}
             </p>
           </div>
 
+          {/* 訂購計畫單選按鈕 - 完美還原截圖樣式 */}
           <div className="space-y-4">
             {(Object.entries(plans) as [keyof typeof plans, any][]).map(([key, plan]) => (
               <div 
                 key={key}
                 onClick={() => setPurchasePlan(key)}
-                className={`p-6 rounded-[2.5rem] border-2 transition-all cursor-pointer relative overflow-hidden group ${
+                className={`p-6 rounded-[2.5rem] border-2 transition-all cursor-pointer relative overflow-hidden bg-white ${
                   purchasePlan === key 
-                  ? 'border-[#A7C7E7] bg-white shadow-2xl shadow-[#A7C7E7]/10' 
-                  : 'border-slate-100 hover:border-slate-200 bg-white'
+                  ? 'border-[#A7C7E7] shadow-xl shadow-[#A7C7E7]/5' 
+                  : 'border-slate-100 hover:border-slate-200'
                 }`}
               >
                 {plan.tag && (
-                  <div className={`absolute top-0 right-0 ${key === 'sub' ? 'bg-[#A7C7E7]' : 'bg-slate-800/30'} text-white text-[9px] px-5 py-1.5 rounded-bl-[20px] font-black tracking-widest`}>
+                  <div className={`absolute top-0 right-0 ${key === 'sub' ? 'bg-[#A7C7E7]' : 'bg-slate-400'} text-white text-[8px] px-4 py-1.5 rounded-bl-[18px] font-black tracking-widest uppercase`}>
                     {plan.tag}
                   </div>
                 )}
                 <div className="flex justify-between items-center relative z-10">
                   <div className="flex items-center space-x-5">
-                    <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${purchasePlan === key ? 'border-[#A7C7E7] scale-110' : 'border-slate-200'}`}>
-                      {purchasePlan === key && <div className="w-3 h-3 rounded-full bg-[#A7C7E7]" />}
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${purchasePlan === key ? 'border-[#A7C7E7]' : 'border-slate-200'}`}>
+                      {purchasePlan === key && <div className="w-2.5 h-2.5 rounded-full bg-[#A7C7E7]" />}
                     </div>
                     <div>
-                      <span className="font-black text-slate-800 text-lg md:text-xl">{plan.label}</span>
-                      <p className="text-[10px] text-slate-400 font-black mt-1 tracking-widest uppercase">{plan.desc}</p>
+                      <span className="font-black text-[#1E293B] text-lg md:text-xl">{plan.label}</span>
+                      <p className="text-[9px] text-slate-400 font-black mt-1 tracking-widest uppercase">{plan.desc}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="text-2xl md:text-3xl font-black text-slate-800">NT$ {plan.price.toLocaleString()}</span>
+                    <span className="text-2xl md:text-3xl font-black text-[#1E293B]">NT$ {plan.price.toLocaleString()}</span>
                   </div>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center gap-6">
-            <div className="flex items-center border-2 border-slate-100 rounded-full bg-white px-6 py-4 shadow-sm w-full sm:w-auto justify-between group-focus-within:border-[#A7C7E7] transition-all">
-              <button onClick={() => setQuantity(q => Math.max(1, q-1))} className="p-1 text-slate-300 hover:text-slate-800 transition-colors"><Minus size={20} /></button>
-              <span className="w-16 text-center font-black text-2xl text-slate-800">{quantity}</span>
-              <button onClick={() => setQuantity(q => q+1)} className="p-1 text-slate-300 hover:text-slate-800 transition-colors"><Plus size={20} /></button>
+          <div className="flex flex-col sm:flex-row items-center gap-6 pt-4">
+            <div className="flex items-center border-2 border-slate-100 rounded-full bg-slate-50/50 px-8 py-5 shadow-sm w-full sm:w-auto justify-between min-w-[160px]">
+              <button onClick={() => setQuantity(q => Math.max(1, q-1))} className="p-1 text-slate-300 hover:text-slate-800 transition-colors"><Minus size={18} /></button>
+              <span className="w-12 text-center font-black text-2xl text-slate-800">{quantity}</span>
+              <button onClick={() => setQuantity(q => q+1)} className="p-1 text-slate-300 hover:text-slate-800 transition-colors"><Plus size={18} /></button>
             </div>
             <button 
               onClick={() => onAddToCart(product, quantity)}
-              className="flex-grow bg-slate-800 text-white py-6 px-12 rounded-full font-black text-lg hover:bg-slate-700 transition-all shadow-2xl active:scale-95 flex items-center justify-center space-x-3"
+              className="flex-grow bg-[#1E293B] text-white py-6 px-12 rounded-full font-black text-lg hover:bg-slate-800 transition-all shadow-2xl active:scale-95 flex items-center justify-center space-x-3"
             >
               <ShoppingCart size={22} />
               <span>立即結帳 NT$ {(currentPrice * quantity).toLocaleString()}</span>
@@ -153,15 +165,15 @@ const PDP: React.FC<PDPProps> = ({ onAddToCart }) => {
         </div>
       </section>
 
-      {/* Compare: Before & After - 重塑「晨霧與深海」 */}
-      <section className="py-24 bg-white px-4">
+      {/* 🎬 藍色對比區塊：這是您找的「原本那張藍色的」對比區 */}
+      <section className="py-24 bg-white px-4 md:px-0">
         <div className="container-custom">
           <div className="grid md:grid-cols-2 bg-white rounded-[4rem] overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.1)] border border-slate-50 min-h-[520px]">
             {/* Before: 焦慮晨霧 */}
-            <div className="p-12 md:p-24 space-y-12 bg-[#F1F5F9] flex flex-col justify-center text-center md:text-left">
+            <div className="p-12 md:p-24 space-y-12 bg-slate-50 flex flex-col justify-center text-center md:text-left border-r border-slate-100">
               <div className="space-y-4">
-                <h3 className="text-3xl md:text-4xl font-black text-[#64748B] tracking-tight">成長焦慮時期</h3>
-                <div className="w-16 h-1.5 bg-[#CBD5E1] rounded-full mx-auto md:mx-0" />
+                <h3 className="text-3xl md:text-4xl font-black text-slate-400 tracking-tight">成長焦慮時期</h3>
+                <div className="w-16 h-1.5 bg-slate-200 rounded-full mx-auto md:mx-0" />
               </div>
               <ul className="space-y-10 md:space-y-12">
                 {[
@@ -170,24 +182,24 @@ const PDP: React.FC<PDPProps> = ({ onAddToCart }) => {
                   '孩子抗拒傳統粉劑或膠囊的味道。'
                 ].map((text, i) => (
                   <li key={i} className="flex flex-col md:flex-row items-center md:items-start md:space-x-8 group">
-                    <div className="w-12 h-12 rounded-full border-2 border-[#CBD5E1] flex items-center justify-center flex-shrink-0 text-[#CBD5E1] animate-jitter mb-4 md:mb-0">
+                    <div className="w-12 h-12 rounded-full border-2 border-slate-200 flex items-center justify-center flex-shrink-0 text-slate-200 animate-jitter mb-4 md:mb-0">
                       <X size={20} strokeWidth={4} />
                     </div>
-                    <p className="text-[#64748B] font-bold text-lg md:text-2xl leading-relaxed">{text}</p>
+                    <p className="text-slate-400 font-bold text-lg md:text-2xl leading-relaxed">{text}</p>
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* After: 深海寧靜 */}
-            <div className="p-12 md:p-24 space-y-12 bg-gradient-to-br from-[#1E3A8A] to-[#172554] text-white flex flex-col justify-center relative group text-center md:text-left">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.08)_0%,transparent_70%)] pointer-events-none group-hover:scale-110 transition-transform duration-1000" />
+            {/* After: 深海寧靜 (核心藍色) */}
+            <div className="p-12 md:p-24 space-y-12 bg-gradient-to-br from-[#1E3A8A] to-[#0F172A] text-white flex flex-col justify-center relative group text-center md:text-left">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(167,199,231,0.15)_0%,transparent_70%)] pointer-events-none" />
               
               <div className="relative z-10 space-y-4">
-                <h3 className="text-3xl md:text-4xl font-black text-white tracking-tight flex items-center justify-center md:justify-start gap-3">
-                  高飛星計畫後 <span className="text-[#FCD34D] text-2xl">✦</span>
+                <h3 className="text-3xl md:text-4xl font-black text-white tracking-tight flex items-center justify-center md:justify-start gap-4">
+                  高飛星計畫後 <span className="text-[#A7C7E7] text-2xl animate-pulse">✦</span>
                 </h3>
-                <div className="w-16 h-1.5 bg-white/30 rounded-full mx-auto md:mx-0" />
+                <div className="w-16 h-1.5 bg-[#A7C7E7] rounded-full mx-auto md:mx-0 shadow-[0_0_15px_rgba(167,199,231,0.8)]" />
               </div>
               <ul className="relative z-10 space-y-10 md:space-y-12">
                 {[
@@ -196,7 +208,7 @@ const PDP: React.FC<PDPProps> = ({ onAddToCart }) => {
                   '天然水果風味，孩子主動要求補充。'
                 ].map((text, i) => (
                   <li key={i} className="flex flex-col md:flex-row items-center md:items-start md:space-x-8">
-                    <div className="w-12 h-12 rounded-full bg-[#FCD34D] text-[#1E3A8A] flex items-center justify-center flex-shrink-0 shadow-[0_0_20px_rgba(252,211,77,0.4)] animate-breathing mb-4 md:mb-0">
+                    <div className="w-12 h-12 rounded-full bg-[#A7C7E7] text-[#1E3A8A] flex items-center justify-center flex-shrink-0 shadow-[0_0_30px_rgba(167,199,231,0.5)] animate-breathing mb-4 md:mb-0">
                       <Check size={24} strokeWidth={4} />
                     </div>
                     <p className="text-white font-black text-lg md:text-2xl leading-relaxed">{text}</p>
@@ -208,7 +220,7 @@ const PDP: React.FC<PDPProps> = ({ onAddToCart }) => {
         </div>
       </section>
 
-      {/* 🚀 New Section: Product Detail Long Images (長圖文依序排列) */}
+      {/* 🚀 長圖文內容區 */}
       <section className="bg-white">
         <div className="container-custom space-y-0">
           {[
@@ -228,8 +240,8 @@ const PDP: React.FC<PDPProps> = ({ onAddToCart }) => {
         </div>
       </section>
 
-      {/* Detailed Science Section */}
-      <section className="section-gap bg-white overflow-hidden">
+      {/* 結尾科學系統區 */}
+      <section className="section-gap bg-[#FDFBF7] overflow-hidden">
         <div className="container-custom">
           <div className="flex flex-col items-center text-center space-y-6 mb-20">
             <h2 className="text-4xl md:text-6xl font-black text-slate-800 tracking-tight">星際成長導航系統</h2>
@@ -257,39 +269,13 @@ const PDP: React.FC<PDPProps> = ({ onAddToCart }) => {
                 icon: <Activity size={32} />, color: 'bg-amber-50 text-amber-500'
               }
             ].map((item, i) => (
-              <div key={i} className="p-10 rounded-[3rem] bg-slate-50 border border-slate-100 group hover:bg-white hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+              <div key={i} className="p-10 rounded-[3rem] bg-white border border-slate-100 group hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
                 <div className={`w-16 h-16 rounded-2xl ${item.color} flex items-center justify-center mb-8 group-hover:scale-110 transition-transform`}>
                   {item.icon}
                 </div>
                 <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">{item.role}</h4>
                 <h3 className="text-xl font-black text-slate-800 mb-4">{item.title}</h3>
                 <p className="text-slate-500 text-sm font-medium leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Safety & Lab */}
-      <section className="bg-[#FDFBF7] py-24 md:py-32">
-        <div className="container-custom text-center space-y-20">
-          <div className="space-y-6">
-            <h2 className="text-3xl md:text-5xl font-black text-slate-800 tracking-tight leading-tight">我們對純淨的承諾，<br />比您更在意。</h2>
-            <p className="text-slate-400 font-medium">嚴選全球頂尖原料，每一瓶都經過最高標準檢測。</p>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
-            {[
-              { icon: <Microscope size={32} />, label: '全項 SGS 檢測' },
-              { icon: <ShieldCheck size={32} />, label: '無西藥、重金屬' },
-              { icon: <Beaker size={32} />, label: '醫師團隊研發' },
-              { icon: <Activity size={32} />, label: 'ISO/HACCP 認證' }
-            ].map((item, i) => (
-              <div key={i} className="space-y-6">
-                <div className="w-20 h-20 bg-white rounded-[2rem] mx-auto flex items-center justify-center text-[#A7C7E7] shadow-sm">
-                  {item.icon}
-                </div>
-                <p className="text-sm font-black text-slate-800 tracking-widest uppercase">{item.label}</p>
               </div>
             ))}
           </div>

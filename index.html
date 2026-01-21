@@ -36,6 +36,12 @@
         animation: float 4s ease-in-out infinite;
       }
       
+      /* 方案 A：邊緣羽化投影 (The Soft Vignette) */
+      .mask-vignette {
+        mask-image: radial-gradient(circle at center, black 40%, transparent 90%);
+        -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 90%);
+      }
+
       /* 科學模組進階動畫 */
       @keyframes dna-rotate {
         from { transform: rotate(0deg) scale(1); }

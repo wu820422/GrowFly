@@ -22,6 +22,7 @@ const Member: React.FC = () => {
   const [weight, setWeight] = useState('');
   const [showToast, setShowToast] = useState(false);
   const navigate = useNavigate();
+  const lineLink = "https://line.me/R/ti/p/@growway";
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -253,7 +254,7 @@ const Member: React.FC = () => {
                 <div className="space-y-4">
                   <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2">體重 WEIGHT (KG)</label>
                   <div className="relative">
-                    <Weight className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-200" size={22} />
+                    <Weight className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300" size={22} />
                     <input 
                       type="number" 
                       step="0.1"
@@ -277,23 +278,39 @@ const Member: React.FC = () => {
             <div className="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-sm border border-slate-50 space-y-10">
                <h3 className="text-2xl font-black text-slate-800 tracking-tight">檔案與設定</h3>
                <div className="space-y-4">
-                  {[
-                    { icon: <User size={22} />, label: '孩子成長檔案設定', path: '#' },
-                    { icon: <Star size={22} />, label: '專屬優惠券專區', path: '#' },
-                    { icon: <Settings size={22} />, label: '個人帳號與資安', path: '#' },
-                    { icon: <HelpCircle size={22} />, label: '聯繫成長顧問', path: '#' }
-                  ].map((item, i) => (
-                    <button 
-                      key={i} 
-                      className="w-full flex items-center justify-between p-6 rounded-[2rem] hover:bg-slate-50 transition-all group border border-transparent hover:border-slate-100"
-                    >
-                       <div className="flex items-center space-x-5 min-w-0">
-                          <div className="text-slate-200 group-hover:text-[#A7C7E7] transition-colors flex-shrink-0">{item.icon}</div>
-                          <span className="text-sm md:text-base font-black text-slate-600 group-hover:text-slate-800 truncate">{item.label}</span>
-                       </div>
-                       <ChevronRight size={20} className="text-slate-100 group-hover:text-slate-400 group-hover:translate-x-1 transition-all flex-shrink-0" />
-                    </button>
-                  ))}
+                  <button className="w-full flex items-center justify-between p-6 rounded-[2rem] hover:bg-slate-50 transition-all group border border-transparent hover:border-slate-100">
+                     <div className="flex items-center space-x-5 min-w-0">
+                        <div className="text-slate-200 group-hover:text-[#A7C7E7] transition-colors flex-shrink-0"><User size={22} /></div>
+                        <span className="text-sm md:text-base font-black text-slate-600 group-hover:text-slate-800 truncate">孩子成長檔案設定</span>
+                     </div>
+                     <ChevronRight size={20} className="text-slate-100 group-hover:text-slate-400 group-hover:translate-x-1 transition-all flex-shrink-0" />
+                  </button>
+                  <button className="w-full flex items-center justify-between p-6 rounded-[2rem] hover:bg-slate-50 transition-all group border border-transparent hover:border-slate-100">
+                     <div className="flex items-center space-x-5 min-w-0">
+                        <div className="text-slate-200 group-hover:text-[#A7C7E7] transition-colors flex-shrink-0"><Star size={22} /></div>
+                        <span className="text-sm md:text-base font-black text-slate-600 group-hover:text-slate-800 truncate">專屬優惠券專區</span>
+                     </div>
+                     <ChevronRight size={20} className="text-slate-100 group-hover:text-slate-400 group-hover:translate-x-1 transition-all flex-shrink-0" />
+                  </button>
+                  <button className="w-full flex items-center justify-between p-6 rounded-[2rem] hover:bg-slate-50 transition-all group border border-transparent hover:border-slate-100">
+                     <div className="flex items-center space-x-5 min-w-0">
+                        <div className="text-slate-200 group-hover:text-[#A7C7E7] transition-colors flex-shrink-0"><Settings size={22} /></div>
+                        <span className="text-sm md:text-base font-black text-slate-600 group-hover:text-slate-800 truncate">個人帳號與資安</span>
+                     </div>
+                     <ChevronRight size={20} className="text-slate-100 group-hover:text-slate-400 group-hover:translate-x-1 transition-all flex-shrink-0" />
+                  </button>
+                  <a 
+                    href={lineLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full flex items-center justify-between p-6 rounded-[2rem] hover:bg-slate-50 transition-all group border border-transparent hover:border-slate-100"
+                  >
+                     <div className="flex items-center space-x-5 min-w-0">
+                        <div className="text-slate-200 group-hover:text-[#06C755] transition-colors flex-shrink-0"><HelpCircle size={22} /></div>
+                        <span className="text-sm md:text-base font-black text-slate-600 group-hover:text-slate-800 truncate">聯繫成長顧問</span>
+                     </div>
+                     <ChevronRight size={20} className="text-slate-100 group-hover:text-slate-400 group-hover:translate-x-1 transition-all flex-shrink-0" />
+                  </a>
                </div>
             </div>
           </div>

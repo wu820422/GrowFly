@@ -6,46 +6,21 @@ import { Phone, Lock, Eye, EyeOff, MessageCircle } from 'lucide-react';
 const Login: React.FC = () => {
   const [showPassword, setShowPassword] = React.useState(false);
   const navigate = useNavigate();
-
-  const Logo = ({ className = "", forceWhite = false }: { className?: string, forceWhite?: boolean }) => (
-    <div className={`flex items-center justify-center ${className}`}>
-      <img 
-        src="https://lh3.googleusercontent.com/d/1cJGWr5-GBdsO0MxpWB01ZseaohfK-gEB" 
-        alt="GrowFly Logo" 
-        className={`w-24 h-24 md:w-36 md:h-36 object-contain transition-all duration-700 hover:scale-105 ${
-          forceWhite ? 'brightness-0 invert' : ''
-        }`}
-      />
-    </div>
-  );
+  const lineLink = "https://line.me/R/ti/p/@growway";
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-[#FDFBF7]">
-      {/* Header Logo for Mobile */}
-      <header className="fixed top-0 left-0 right-0 z-50 h-[100px] bg-transparent flex items-center md:hidden">
-        <div className="container-custom flex justify-center">
-          <Link to="/">
-            <Logo />
-          </Link>
-        </div>
-      </header>
-
       {/* Left: Brand Visual (Desktop Only) */}
       <div className="hidden md:block md:w-1/2 relative overflow-hidden">
-        <div className="absolute top-12 left-12 z-20">
-          <Link to="/">
-            <Logo forceWhite={true} />
-          </Link>
-        </div>
         <img 
           src="https://images.unsplash.com/photo-1484665754804-74b091211472?auto=format&fit=crop&q=80&w=1200" 
-          alt="GrowFly Kids" 
+          alt="銀禾生醫 GrowFly Kids" 
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-slate-900/20" />
         <div className="absolute bottom-20 left-20 text-white space-y-4 max-w-md">
            <h2 className="text-5xl font-black leading-tight tracking-tight text-shadow-lg">科學守護，<br />見證成長的每一刻。</h2>
-           <p className="text-xl font-medium text-white/80">加入 GrowFly，開啟專屬您孩子的健康紀錄系統。</p>
+           <p className="text-xl font-medium text-white/80">加入銀禾生醫 GrowFly 會員，開啟專屬您孩子的健康紀錄系統。</p>
         </div>
       </div>
 
@@ -54,7 +29,7 @@ const Login: React.FC = () => {
         <div className="w-full max-w-md space-y-10 animate-in fade-in slide-in-from-right-8 duration-700">
           <div className="text-center md:text-left space-y-2">
             <h1 className="text-4xl font-black text-slate-800 tracking-tight">歡迎回來</h1>
-            <p className="text-slate-500 font-medium">登入以查看您的成長紀錄與專屬建議</p>
+            <p className="text-slate-500 font-medium text-lg">登入以查看成長紀錄與營養建議</p>
           </div>
 
           <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); navigate('/member'); }}>
@@ -108,10 +83,15 @@ const Login: React.FC = () => {
               </div>
             </div>
 
-            <button className="w-full flex items-center justify-center space-x-3 py-4 rounded-[20px] border border-slate-100 bg-white hover:bg-slate-50 transition-all font-bold text-slate-600 shadow-sm">
+            <a 
+              href={lineLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full flex items-center justify-center space-x-3 py-4 rounded-[20px] border border-slate-100 bg-white hover:bg-slate-50 transition-all font-bold text-slate-600 shadow-sm"
+            >
               <MessageCircle className="text-emerald-500 fill-emerald-500" size={20} />
-              <span>使用 LINE 帳號登入</span>
-            </button>
+              <span>使用 LINE 帳號登入 / 諮詢</span>
+            </a>
           </div>
 
           <p className="text-center text-sm text-slate-500 font-medium">

@@ -1,7 +1,6 @@
-
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronRight, Clock, Sparkles } from 'lucide-react';
+import { Clock } from 'lucide-react';
 import { JOURNAL_ARTICLES } from '../constants';
 
 const Journal: React.FC = () => {
@@ -15,10 +14,9 @@ const Journal: React.FC = () => {
     { id: 'expert', label: '醫師專欄' },
   ];
 
-  const featuredArticle = JOURNAL_ARTICLES[0];
-  const remainingArticles = useMemo(() => {
-    const filtered = JOURNAL_ARTICLES.filter(a => filter === 'all' || a.category === filter);
-    return filter === 'all' ? filtered.filter(a => a.id !== featuredArticle.id) : filtered;
+  // 現在顯示所有符合過濾條件的文章，不再排除任何「精選」文章
+  const displayArticles = useMemo(() => {
+    return JOURNAL_ARTICLES.filter(a => filter === 'all' || a.category === filter);
   }, [filter]);
 
   const catColors: Record<string, string> = {
@@ -30,14 +28,16 @@ const Journal: React.FC = () => {
 
   return (
     <div className="pt-24 md:pt-40 space-y-0 bg-[#FDFBF7] min-h-screen">
+      {/* 標題區 */}
       <section className="container-custom space-y-8 mb-16">
         <div className="space-y-4">
-          <h1 className="text-4xl md:text-5xl font-black text-slate-800 tracking-tight leading-tight"> GrowFly 成長百科</h1>
+          <h1 className="text-4xl md:text-5xl font-black text-slate-800 tracking-tight leading-tight">成長百科</h1>
           <p className="text-lg md:text-xl text-slate-500 font-medium max-w-2xl leading-relaxed">
             從醫學實證到日常照護，陪您破解成長路上的每一個迷思。
           </p>
         </div>
 
+        {/* 分類按鈕區 */}
         <div className="flex flex-wrap gap-3 md:gap-4 pt-4 sticky top-20 z-30 py-4 bg-[#FDFBF7]/80 backdrop-blur-md">
           {categories.map((cat) => (
             <button
@@ -55,69 +55,39 @@ const Journal: React.FC = () => {
         </div>
       </section>
 
-      {filter === 'all' && (
-        <section className="container-custom mb-16 md:mb-24">
-          <Link 
-            to={`/journal/${featuredArticle.id}`}
-            className="group block bg-white rounded-[20px] overflow-hidden shadow-sm hover:shadow-xl transition-all border border-slate-100"
-          >
-            <div className="flex flex-col md:flex-row">
-              <div className="w-full md:w-[60%] aspect-[16/9] overflow-hidden relative">
-                <img 
-                  src={featuredArticle.image} 
-                  alt={featuredArticle.title} 
-                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                />
-                <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-md px-5 py-2 rounded-full flex items-center space-x-2 text-[#D4AF37] text-[10px] font-black shadow-lg">
-                  <Sparkles size={12} />
-                  <span>編輯精選</span>
-                </div>
-              </div>
-              <div className="w-full md:w-[40%] p-8 md:p-12 space-y-6">
-                <span className={`px-4 py-1 rounded-full text-[10px] font-black tracking-widest uppercase ${catColors[featuredArticle.category] || 'bg-slate-100 text-slate-400'}`}>
-                  {featuredArticle.categoryName}
-                </span>
-                <h2 className="text-2xl md:text-3xl font-black text-slate-800 group-hover:text-[#A7C7E7] transition-colors leading-tight">
-                  {featuredArticle.title}
-                </h2>
-                <p className="text-slate-500 font-medium leading-relaxed line-clamp-2 text-sm">
-                  {featuredArticle.summary}
-                </p>
-                <div className="flex items-center justify-between pt-6 border-t border-slate-50">
-                   <div className="flex items-center space-x-4 text-[10px] font-black text-slate-400">
-                     <span className="flex items-center space-x-1 tracking-widest"><Clock size={12} /> <span>⏱ {featuredArticle.readTime}</span></span>
-                   </div>
-                   <div className="text-slate-800 font-black text-sm flex items-center group-hover:translate-x-2 transition-transform">
-                     <span>閱讀全文</span>
-                     <ChevronRight size={16} />
-                   </div>
-                </div>
-              </div>
-            </div>
-          </Link>
-        </section>
-      )}
-
-      <section className="container-custom pb-32">
+      {/* 文章列表區塊：不再有編輯精選，直接整齊排列 */}
+      <section className="container-custom pb-32 mt-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-          {remainingArticles.map((article) => (
+          {displayArticles.map((article) => (
             <Link 
               key={article.id} 
               to={`/journal/${article.id}`}
-              className="group flex flex-col bg-white rounded-[20px] overflow-hidden shadow-sm hover:shadow-xl transition-all border border-slate-50"
+              className="group flex flex-col bg-white rounded-[24px] overflow-hidden shadow-sm hover:shadow-xl transition-all border border-slate-50"
             >
-              <div className="aspect-[16/10] overflow-hidden relative">
-                <img 
-                  src={article.image} 
-                  alt={article.title} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute top-5 left-5">
+              {/* 文章圖片容器：確保比例穩定且圖片覆蓋 */}
+              <div className="relative aspect-[16/10] bg-slate-200 overflow-hidden">
+                {article.image ? (
+                  <img 
+                    src={article.image} 
+                    alt={article.title} 
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    loading="lazy"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1512428559087-560fa5ceab42?auto=format&fit=crop&q=60&w=800';
+                    }}
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center bg-slate-100 text-slate-300">
+                    <Clock size={32} />
+                  </div>
+                )}
+                
+                <div className="absolute top-5 left-5 z-10">
                   <span className={`px-3 py-1 rounded-full text-[9px] font-black tracking-widest uppercase shadow-sm ${catColors[article.category] || 'bg-white/90 text-slate-500'}`}>
                     #{article.categoryName}
                   </span>
                 </div>
-                <div className="absolute bottom-5 right-5 bg-slate-900/60 backdrop-blur-md px-3 py-1 rounded-full text-[9px] font-black text-white flex items-center space-x-1 shadow-lg">
+                <div className="absolute bottom-5 right-5 bg-slate-900/60 backdrop-blur-md px-3 py-1 rounded-full text-[9px] font-black text-white flex items-center space-x-1 shadow-lg z-10">
                    <Clock size={10} /> <span>⏱ {article.readTime}</span>
                 </div>
               </div>
@@ -140,6 +110,13 @@ const Journal: React.FC = () => {
             </Link>
           ))}
         </div>
+
+        {displayArticles.length === 0 && (
+          <div className="py-20 text-center space-y-4">
+             <p className="text-slate-300 font-black text-xl">此分類目前尚無文章</p>
+             <button onClick={() => setFilter('all')} className="text-[#A7C7E7] font-black underline">回到全部文章</button>
+          </div>
+        )}
       </section>
     </div>
   );
