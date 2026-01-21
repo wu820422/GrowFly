@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Clock } from 'lucide-react';
@@ -20,10 +21,10 @@ const Journal: React.FC = () => {
   }, [filter]);
 
   const catColors: Record<string, string> = {
-    growth: 'bg-[#A7C7E7]/20 text-[#A7C7E7]',
-    sleep: 'bg-[#C1D7C1]/30 text-[#88A688]',
-    nutrition: 'bg-[#F2D5D5]/40 text-[#D9A3A3]',
-    expert: 'bg-[#F9E7B8]/40 text-[#D4AF37]',
+    growth: 'text-[#A7C7E7]',
+    sleep: 'text-[#88A688]',
+    nutrition: 'text-[#D9A3A3]',
+    expert: 'text-[#D4AF37]',
   };
 
   return (
@@ -83,7 +84,7 @@ const Journal: React.FC = () => {
                 )}
                 
                 <div className="absolute top-5 left-5 z-10">
-                  <span className={`px-3 py-1 rounded-full text-[9px] font-black tracking-widest uppercase shadow-sm ${catColors[article.category] || 'bg-white/90 text-slate-500'}`}>
+                  <span className={`px-3 py-1 rounded-full text-[9px] font-black tracking-widest uppercase shadow-sm bg-white ${catColors[article.category] || 'text-slate-500'}`}>
                     #{article.categoryName}
                   </span>
                 </div>
@@ -104,7 +105,7 @@ const Journal: React.FC = () => {
                 
                 <div className="flex items-center justify-between text-[9px] font-black text-slate-300 uppercase tracking-widest pt-5 border-t border-slate-50">
                   <span>{article.date}</span>
-                  <span className="text-slate-800 group-hover:underline">READ MORE →</span>
+                  <span className="text-slate-800 group-hover:underline">閱讀更多 →</span>
                 </div>
               </div>
             </Link>

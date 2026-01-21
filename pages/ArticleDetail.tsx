@@ -60,9 +60,9 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({ onAddToCart }) => {
         <article className="container-custom max-w-[720px] mx-auto px-6">
           <header className="space-y-10 mb-16 text-center">
             <nav className="flex items-center justify-center text-[10px] font-black text-slate-300 space-x-3 tracking-[0.2em] uppercase">
-              <Link to="/" className="hover:text-slate-800 transition-colors">HOME</Link>
+              <Link to="/" className="hover:text-slate-800 transition-colors">首頁</Link>
               <ChevronRight size={10} />
-              <Link to="/journal" className="hover:text-slate-800 transition-colors">JOURNAL</Link>
+              <Link to="/journal" className="hover:text-slate-800 transition-colors">成長專欄</Link>
               <ChevronRight size={10} />
               <span className="text-slate-800">{article.categoryName}</span>
             </nav>
@@ -84,7 +84,7 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({ onAddToCart }) => {
               <div className="hidden md:block h-6 w-px bg-slate-100 mx-2" />
               <div className="flex items-center space-x-6 text-[9px] font-black text-slate-400 tracking-widest uppercase">
                  <span className="flex items-center space-x-2"><Clock size={12} className="text-[#A7C7E7]" /> <span>⏱ {article.readTime}</span></span>
-                 <button className="flex items-center space-x-2 hover:text-slate-800 transition-colors"><Share2 size={12} /> <span>SHARE</span></button>
+                 <button className="flex items-center space-x-2 hover:text-slate-800 transition-colors"><Share2 size={12} /> <span>分享</span></button>
               </div>
             </div>
           </header>
