@@ -11,6 +11,7 @@ interface HomeProps {
 
 const Home: React.FC<HomeProps> = ({ onAddToCart }) => {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -18,6 +19,29 @@ const Home: React.FC<HomeProps> = ({ onAddToCart }) => {
     }, 5000);
     return () => clearInterval(interval);
   }, []);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStart === null) return;
+    const touchEnd = e.changedTouches[0].clientX;
+    const distance = touchStart - touchEnd;
+
+    if (distance > 50) {
+      setActiveTestimonial((prev) => (prev + 1) % TESTIMONIALS.length);
+    } else if (distance < -50) {
+      setActiveTestimonial((prev) => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
+    }
+    setTouchStart(null);
+  };
+
+  const reports = [
+    { title: 'SGS 檢驗報告書', img: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&q=80&w=800' },
+    { title: 'Eurofins 檢驗報告書', img: 'https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&q=80&w=800' },
+    { title: 'ETC 檢測中心報告', img: 'https://images.unsplash.com/photo-1532187875660-d4583173806a?auto=format&fit=crop&q=80&w=800' }
+  ];
 
   return (
     <div className="space-y-0">
@@ -172,13 +196,13 @@ const Home: React.FC<HomeProps> = ({ onAddToCart }) => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-10">
-            {[1, 2, 3].map((i) => (
+            {reports.map((report, i) => (
               <div key={i} className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100 group hover:shadow-2xl transition-all cursor-zoom-in">
                 <div className="aspect-[3/4] bg-slate-50 rounded-3xl mb-6 flex items-center justify-center overflow-hidden">
-                  <div className="text-slate-300 text-sm font-black opacity-40">檢驗報告書 {i}</div>
+                  <img src={report.img} alt={report.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                 </div>
                 <p className="font-black text-slate-700">
-                  {i === 1 ? 'SGS 檢驗報告書' : i === 2 ? 'Eurofins 檢驗報告書' : 'ETC 檢測中心報告'}
+                  {report.title}
                 </p>
               </div>
             ))}
@@ -203,39 +227,54 @@ const Home: React.FC<HomeProps> = ({ onAddToCart }) => {
 
       {/* Section 5: Testimonials */}
       <section className="section-gap bg-[#F5F5F0]">
-        <div className="container-custom space-y-20">
-          <h2 className="text-4xl font-black text-center text-slate-800 tracking-tight">來自專業人士與家長的真實回饋。</h2>
+        <div className="container-custom space-y-16 md:space-y-24">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-[900] text-center text-slate-800 tracking-tight px-4 leading-[1.2]">
+            來自專業人士與家長的<br className="hidden md:block" />真實回饋。
+          </h2>
           
-          <div className="relative max-w-4xl mx-auto overflow-hidden">
+          <div className="relative max-w-4xl mx-auto">
+            {/* Slider Container */}
             <div 
-              className="flex transition-transform duration-700 ease-in-out"
-              style={{ transform: `translateX(-${activeTestimonial * 100}%)` }}
+              className="relative overflow-hidden touch-pan-y select-none rounded-[3rem] md:rounded-[4rem]"
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
             >
-              {TESTIMONIALS.map((t) => (
-                <div key={t.id} className="min-w-full px-4">
-                  <div className="bg-white p-8 md:p-14 rounded-[3rem] md:rounded-[4rem] shadow-xl text-center space-y-8 md:space-y-10">
-                    <div className="w-24 h-24 md:w-28 md:h-28 rounded-full mx-auto overflow-hidden border-4 border-[#A7C7E7]/20 shadow-lg">
-                      <img src={t.avatar} alt={t.name} className="w-full h-full object-cover" />
-                    </div>
-                    <p className="text-xl md:text-2xl text-slate-600 font-medium italic leading-relaxed">
-                      「{t.content}」
-                    </p>
-                    <div>
-                      <h4 className="text-xl font-black text-slate-800">{t.name}</h4>
-                      <p className="text-sm text-[#A7C7E7] font-black tracking-widest uppercase mt-1">{t.title}</p>
+              <div 
+                className="flex transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]"
+                style={{ transform: `translateX(-${activeTestimonial * 100}%)` }}
+              >
+                {TESTIMONIALS.map((t) => (
+                  <div key={t.id} className="min-w-full px-4 flex-shrink-0">
+                    <div className="bg-white p-8 md:p-16 rounded-[3rem] md:rounded-[4rem] shadow-xl text-center space-y-8 md:space-y-12 border border-slate-100/50 h-full flex flex-col justify-center">
+                      <div className="w-24 h-24 md:w-32 md:h-32 rounded-full mx-auto overflow-hidden border-[6px] border-[#A7C7E7]/10 shadow-lg flex-shrink-0">
+                        <img src={t.avatar} alt={t.name} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="space-y-6">
+                        <p className="text-lg md:text-2xl text-slate-600 font-medium italic leading-[1.8] max-w-2xl mx-auto">
+                          「{t.content}」
+                        </p>
+                        <div className="pt-4">
+                          <h4 className="text-xl md:text-2xl font-black text-slate-800">{t.name}</h4>
+                          <p className="text-xs md:text-sm text-[#A7C7E7] font-black tracking-[0.2em] uppercase mt-2">{t.title}</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
 
-            <div className="flex justify-center space-x-4 mt-12">
+            {/* Pagination Dots */}
+            <div className="flex justify-center items-center space-x-3 md:space-x-4 mt-10 md:mt-16">
               {TESTIMONIALS.map((_, i) => (
                 <button 
                   key={i} 
                   onClick={() => setActiveTestimonial(i)}
-                  className={`h-3 rounded-full transition-all duration-300 ${activeTestimonial === i ? 'bg-[#A7C7E7] w-10' : 'bg-slate-300 w-3 hover:bg-slate-400'}`}
-                />
+                  aria-label={`Go to slide ${i + 1}`}
+                  className={`group relative py-4 focus:outline-none transition-all duration-300`}
+                >
+                  <span className={`block h-1.5 md:h-2 rounded-full transition-all duration-500 ${activeTestimonial === i ? 'bg-[#A7C7E7] w-10 md:w-14' : 'bg-slate-300 w-3 md:w-4 group-hover:bg-slate-400'}`} />
+                </button>
               ))}
             </div>
           </div>

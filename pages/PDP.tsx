@@ -32,11 +32,12 @@ const PDP: React.FC<PDPProps> = ({ onAddToCart }) => {
 
   const currentPrice = plans[purchasePlan].price;
 
-  const faqs = [
-    { q: `幾歲適合食用 ${product.name}？`, a: '建議準備進入學齡或學齡期兒童（約 5-12 歲），正值生長黃金期的孩子食用。' },
-    { q: '喝起來是什麼味道？', a: '是孩子喜歡的清爽水果風味，完全沒有藥味或苦澀感，經過多次調配，讓孩子主動想喝。' },
-    { q: '可以跟其他營養品一起吃嗎？', a: '可以。配方溫和，但建議與藥物間隔 1-2 小時食用。' },
-    { q: '定期配送如何取消？', a: '您可以隨時於會員中心取消或暫停配送，完全無合約壓力。' }
+  // 商品縮圖
+  const thumbnails = [
+    'https://images.unsplash.com/photo-1550577624-42c7cf5d87cd?q=80&w=400',
+    'https://images.unsplash.com/photo-1544126592-807daa2b5d3a?q=80&w=400',
+    'https://images.unsplash.com/photo-1512418490979-92798ccc1380?q=80&w=400',
+    'https://images.unsplash.com/photo-1484665754804-74b091211472?q=80&w=400'
   ];
 
   return (
@@ -51,16 +52,16 @@ const PDP: React.FC<PDPProps> = ({ onAddToCart }) => {
 
       <section className="container-custom py-10 md:py-16 grid md:grid-cols-2 gap-12 md:gap-20 items-start">
         <div className="sticky top-32 space-y-6">
-          <div className="aspect-square bg-white rounded-[20px] overflow-hidden shadow-xl group relative">
+          <div className="aspect-square bg-white rounded-[20px] overflow-hidden shadow-xl group relative border border-slate-100">
             <img src={product.image} alt={product.name} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
             <div className="absolute bottom-6 right-6 bg-white/50 backdrop-blur-md p-3 rounded-full text-slate-800 opacity-0 group-hover:opacity-100 transition-opacity">
                <Sparkles size={16} />
             </div>
           </div>
           <div className="grid grid-cols-4 gap-4">
-            {[1, 2, 3, 4].map((i) => (
+            {thumbnails.map((img, i) => (
               <div key={i} className="aspect-square rounded-[15px] bg-white border border-slate-100 overflow-hidden cursor-pointer hover:border-[#A7C7E7] transition-all">
-                <img src={`https://picsum.photos/seed/pdp-${product.id}-${i}/400`} alt="thumb" className="w-full h-full object-cover opacity-60 hover:opacity-100 transition-opacity" />
+                <img src={img} alt="thumb" className="w-full h-full object-cover opacity-60 hover:opacity-100 transition-opacity" />
               </div>
             ))}
           </div>
@@ -69,7 +70,7 @@ const PDP: React.FC<PDPProps> = ({ onAddToCart }) => {
         <div className="flex flex-col space-y-10">
           <div className="space-y-6">
             <div className="inline-block px-4 py-1.5 bg-[#A7C7E7]/10 rounded-full">
-              <span className="text-[10px] font-black text-[#A7C7E7] tracking-[0.2em] uppercase">GROWWAY PREMIUM</span>
+              <span className="text-[10px] font-black text-[#A7C7E7] tracking-[0.2em] uppercase">GROWFLY PREMIUM</span>
             </div>
             <h1 className="text-3xl md:text-5xl font-black text-slate-800 tracking-tight leading-tight">
               {product.name}
@@ -141,33 +142,39 @@ const PDP: React.FC<PDPProps> = ({ onAddToCart }) => {
           </div>
 
           <div className="grid md:grid-cols-2 gap-6 bg-white rounded-[20px] overflow-hidden shadow-lg border border-slate-100">
-            <div className="p-10 md:p-12 space-y-8 bg-slate-50">
-              <h3 className="text-xl font-black text-slate-300">普通夜晚 (Before)</h3>
-              <ul className="space-y-6">
-                {[
-                  '入睡困難：精力過剩，難以平靜下來。',
-                  '睡眠不穩：淺眠、夜醒，影響生長分泌。'
-                ].map((text, i) => (
-                  <li key={i} className="flex items-start space-x-4 opacity-40">
-                    <div className="w-5 h-5 rounded-full bg-slate-200 flex items-center justify-center flex-shrink-0 text-[8px] font-black">✕</div>
-                    <p className="text-slate-600 font-medium text-base">{text}</p>
-                  </li>
-                ))}
-              </ul>
+            <div className="p-10 md:p-12 space-y-8 bg-slate-50 relative overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1544126592-807daa2b5d3a?q=80&w=800" className="absolute inset-0 w-full h-full object-cover opacity-10 grayscale" alt="sleep-before" />
+              <div className="relative z-10 space-y-8">
+                <h3 className="text-xl font-black text-slate-400">普通夜晚 (Before)</h3>
+                <ul className="space-y-6">
+                  {[
+                    '入睡困難：精力過剩，難以平靜下來。',
+                    '睡眠不穩：淺眠、夜醒，影響生長分泌。'
+                  ].map((text, i) => (
+                    <li key={i} className="flex items-start space-x-4 opacity-60">
+                      <div className="w-5 h-5 rounded-full bg-slate-200 flex items-center justify-center flex-shrink-0 text-[8px] font-black text-slate-400">✕</div>
+                      <p className="text-slate-600 font-medium text-base">{text}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-            <div className="p-10 md:p-12 space-y-8">
-              <h3 className="text-xl font-black text-slate-800">高飛星儀式 (After)</h3>
-              <ul className="space-y-6">
-                {[
-                  '安心入睡：期待「高飛星時間」，建立正向睡眠。',
-                  '深層睡眠：甘胺酸鎂幫助放鬆，延長深睡期。'
-                ].map((text, i) => (
-                  <li key={i} className="flex items-start space-x-4">
-                    <div className="w-5 h-5 rounded-full bg-[#A7C7E7] text-white flex items-center justify-center flex-shrink-0 text-[8px] font-black">✓</div>
-                    <p className="text-slate-800 font-black text-base">{text}</p>
-                  </li>
-                ))}
-              </ul>
+            <div className="p-10 md:p-12 space-y-8 relative overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1519331379826-f10be5486c6f?q=80&w=800" className="absolute inset-0 w-full h-full object-cover opacity-10" alt="sleep-after" />
+              <div className="relative z-10 space-y-8">
+                <h3 className="text-xl font-black text-slate-800">高飛星儀式 (After)</h3>
+                <ul className="space-y-6">
+                  {[
+                    '安心入睡：期待「高飛星時間」，建立正向睡眠。',
+                    '深層睡眠：甘胺酸鎂幫助放鬆，延長深睡期。'
+                  ].map((text, i) => (
+                    <li key={i} className="flex items-start space-x-4">
+                      <div className="w-5 h-5 rounded-full bg-[#A7C7E7] text-white flex items-center justify-center flex-shrink-0 text-[8px] font-black">✓</div>
+                      <p className="text-slate-800 font-black text-base">{text}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
         </div>

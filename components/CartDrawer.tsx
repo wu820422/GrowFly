@@ -95,8 +95,8 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, cart, onRemove
               <div className="mt-8 bg-[#FDFBF7] p-4 rounded-3xl border border-dashed border-[#A7C7E7]/30">
                 <p className="text-xs font-bold text-[#A7C7E7] mb-3">搭配這些效果更好：</p>
                 <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center border border-slate-100">
-                    <img src="https://picsum.photos/seed/probiotics/100" className="w-8 h-8 opacity-60" alt="upsell" />
+                  <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center border border-slate-100 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1584017911766-d451b3d0e843?q=80&w=200" className="w-full h-full object-cover opacity-80" alt="upsell" />
                   </div>
                   <div className="flex-grow">
                     <p className="text-[10px] font-bold">加強吸收！全效益生菌</p>

@@ -7,9 +7,7 @@ import {
   Tooltip, 
   ResponsiveContainer, 
   Area, 
-  ComposedChart,
-  ReferenceLine,
-  Line
+  ComposedChart
 } from 'recharts';
 import { 
   Plus, Ruler, Weight, Calendar, CheckCircle2, 
@@ -33,7 +31,6 @@ const Member: React.FC = () => {
     setWeight('');
   };
 
-  // Combine user data with reference lines
   const chartData = WHO_GROWTH_REFERENCE.map(ref => {
     const userData = DUMMY_GROWTH_DATA.find(d => d.age === ref.age);
     return {
@@ -44,211 +41,257 @@ const Member: React.FC = () => {
 
   return (
     <div className="pt-24 md:pt-40 pb-32 bg-[#FDFBF7] min-h-screen">
-      <div className="container-custom space-y-12">
-        {/* 1. Welcome Header (歡迎區) */}
-        <div className="bg-white rounded-[20px] p-8 md:p-12 shadow-sm border border-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-8">
-          <div className="flex items-center space-x-8">
-            <div className="w-20 h-20 rounded-full bg-[#A7C7E7]/10 flex items-center justify-center text-[#A7C7E7] overflow-hidden border border-[#A7C7E7]/20">
-               <img src={`https://picsum.photos/seed/${CURRENT_USER.id}/200`} alt="avatar" className="w-full h-full object-cover" />
+      <div className="container-custom space-y-8 md:space-y-12">
+        
+        {/* 1. 歡迎區 (Welcome Header) */}
+        <div className="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-sm border border-slate-50 relative overflow-hidden">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-8 relative z-10">
+            {/* 頭像區域 */}
+            <div className="flex-shrink-0 mx-auto sm:mx-0">
+              <div className="w-24 h-24 md:w-28 md:h-28 rounded-full bg-[#A7C7E7]/10 flex items-center justify-center text-[#A7C7E7] overflow-hidden border-4 border-white shadow-lg">
+                <img src={`https://picsum.photos/seed/${CURRENT_USER.id}/200`} alt="avatar" className="w-full h-full object-cover" />
+              </div>
             </div>
-            <div className="space-y-2">
-              <h1 className="text-3xl font-black text-slate-800 tracking-tight">早安，{CURRENT_USER.name}</h1>
-              <div className="flex items-center space-x-3">
-                <span className="px-3 py-1 bg-amber-50 rounded-full text-[10px] font-black text-amber-500 uppercase tracking-widest border border-amber-100">
+
+            {/* 文字區域 */}
+            <div className="flex-grow space-y-4 text-center sm:text-left min-w-0">
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-black text-slate-800 tracking-tight">
+                早安，{CURRENT_USER.name}
+              </h1>
+              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4">
+                <span className="inline-flex items-center px-4 py-1.5 bg-amber-50 rounded-full text-[10px] font-[900] text-amber-500 uppercase tracking-[0.2em] border border-amber-100 shadow-sm">
                   {CURRENT_USER.levelName}
                 </span>
-                <span className="text-sm font-bold text-slate-400">累積點數：{CURRENT_USER.points} P</span>
+                <span className="text-xs md:text-sm font-bold text-slate-400">
+                  累積點數：<span className="text-slate-600 font-black">{CURRENT_USER.points.toLocaleString()} P</span>
+                </span>
               </div>
             </div>
+
+            {/* 登出按鈕 */}
+            <div className="sm:absolute sm:bottom-0 sm:right-0 pt-6 sm:pt-0 flex justify-center sm:block">
+              <button 
+                onClick={() => navigate('/login')} 
+                className="flex items-center space-x-2 text-slate-300 hover:text-red-400 transition-colors font-black text-[10px] uppercase tracking-[0.3em] group"
+              >
+                <LogOut size={14} className="group-hover:-translate-x-1 transition-transform" />
+                <span>登出系統</span>
+              </button>
+            </div>
           </div>
-          <div className="flex items-center space-x-4">
-            <button onClick={() => navigate('/login')} className="flex items-center space-x-2 text-slate-400 hover:text-red-400 transition-colors font-black text-xs uppercase tracking-widest">
-              <LogOut size={16} />
-              <span>登出</span>
-            </button>
-          </div>
+          {/* 背景裝飾 */}
+          <div className="absolute -top-12 -right-12 w-48 h-48 bg-[#A7C7E7]/5 rounded-full blur-3xl pointer-events-none" />
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-10">
-          {/* 2. Growth Tracker (成長儀表板) */}
-          <div className="lg:col-span-2 space-y-10">
-            <div className="bg-white rounded-[20px] p-8 md:p-12 shadow-sm border border-slate-50 space-y-10">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-                <div className="space-y-1">
-                  <h3 className="text-2xl font-black text-slate-800 tracking-tight">{CURRENT_USER.childProfile?.nickname} 的成長曲線</h3>
-                  <p className="text-sm text-slate-400 font-medium">基於 WHO 國際生長標準比對</p>
+        <div className="grid lg:grid-cols-12 gap-8 md:gap-12 items-start">
+          
+          {/* 2. 成長曲線區 (Main Tracker) */}
+          <div className="lg:col-span-8 space-y-8 md:space-y-12">
+            <div className="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-sm border border-slate-50 space-y-12">
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-8">
+                <div className="space-y-2">
+                  <h3 className="text-2xl md:text-3xl font-black text-slate-800 tracking-tight">
+                    {CURRENT_USER.childProfile?.nickname} 的成長曲線
+                  </h3>
+                  <p className="text-xs md:text-sm text-slate-400 font-medium tracking-wide">基於 WHO 國際生長標準 3% ~ 97% 百分位比對</p>
                 </div>
-                <div className="flex items-center gap-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                   <div className="flex items-center space-x-2"><div className="w-3 h-3 rounded-full bg-[#A7C7E7]"></div><span>目前身高</span></div>
-                   <div className="flex items-center space-x-2"><div className="w-3 h-3 rounded-full bg-slate-100"></div><span>標準百分位</span></div>
+                <div className="flex items-center gap-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
+                   <div className="flex items-center space-x-2">
+                     <div className="w-3 h-3 rounded-full bg-[#A7C7E7]" />
+                     <span>目前身高</span>
+                   </div>
+                   <div className="flex items-center space-x-2">
+                     <div className="w-3 h-3 rounded-full bg-slate-100" />
+                     <span>標準百分位</span>
+                   </div>
                 </div>
               </div>
 
-              <div className="h-[400px] w-full">
+              {/* 圖表容器 */}
+              <div className="h-[340px] md:h-[460px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
-                  <ComposedChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                  <ComposedChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                     <defs>
                       <linearGradient id="userGradient" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#A7C7E7" stopOpacity={0.2}/>
                         <stop offset="95%" stopColor="#A7C7E7" stopOpacity={0}/>
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="4 4" vertical={false} stroke="#f8fafc" />
+                    <CartesianGrid strokeDasharray="8 8" vertical={false} stroke="#f1f5f9" />
                     <XAxis 
                       dataKey="age" 
                       axisLine={false} 
                       tickLine={false} 
-                      tick={{fill: '#94a3b8', fontSize: 11, fontWeight: '700'}} 
-                      dy={10}
-                      label={{ value: '年齡 (歲)', position: 'insideBottomRight', offset: -5, fontSize: 10, fill: '#cbd5e1' }}
+                      tick={{fill: '#94a3b8', fontSize: 11, fontWeight: '900'}} 
+                      dy={15}
+                      label={{ value: '年齡 (Age)', position: 'insideBottomRight', offset: -5, fontSize: 10, fontWeight: 900, fill: '#cbd5e1' }}
                     />
                     <YAxis 
                       domain={['dataMin - 5', 'dataMax + 5']}
                       axisLine={false} 
                       tickLine={false} 
-                      tick={{fill: '#94a3b8', fontSize: 11, fontWeight: '700'}}
-                      label={{ value: '身高 (cm)', angle: -90, position: 'insideLeft', fontSize: 10, fill: '#cbd5e1' }}
+                      tick={{fill: '#94a3b8', fontSize: 11, fontWeight: '900'}}
+                      dx={-5}
                     />
                     <Tooltip 
-                      contentStyle={{ borderRadius: '15px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)', padding: '12px' }}
+                      cursor={{ stroke: '#f1f5f9', strokeWidth: 2 }}
+                      contentStyle={{ 
+                        borderRadius: '24px', 
+                        border: 'none', 
+                        boxShadow: '0 25px 50px -12px rgb(0 0 0 / 0.15)', 
+                        padding: '20px', 
+                        fontSize: '13px',
+                        fontWeight: '900',
+                        color: '#1e293b'
+                      }}
                     />
-                    {/* WHO Standard Shaded Areas */}
-                    <Area type="monotone" dataKey="h97" stroke="transparent" fill="#f1f5f9" fillOpacity={0.5} />
-                    <Area type="monotone" dataKey="h50" stroke="#cbd5e1" strokeWidth={1} strokeDasharray="3 3" fill="transparent" />
+                    <Area type="monotone" dataKey="h97" stroke="transparent" fill="#f8fafc" fillOpacity={0.6} />
+                    <Area type="monotone" dataKey="h50" stroke="#e2e8f0" strokeWidth={1} strokeDasharray="6 6" fill="transparent" />
                     <Area type="monotone" dataKey="h3" stroke="transparent" fill="#fff" fillOpacity={1} />
-                    
-                    {/* User Data Line */}
                     <Area 
                       type="monotone" 
                       dataKey="userHeight" 
                       stroke="#A7C7E7" 
-                      strokeWidth={4} 
+                      strokeWidth={5} 
                       fill="url(#userGradient)"
-                      dot={{ r: 5, fill: '#fff', stroke: '#A7C7E7', strokeWidth: 3 }}
+                      dot={{ r: 7, fill: '#fff', stroke: '#A7C7E7', strokeWidth: 4 }}
+                      activeDot={{ r: 10, strokeWidth: 0, fill: '#A7C7E7' }}
                     />
                   </ComposedChart>
                 </ResponsiveContainer>
               </div>
 
-              {/* AI Insight (智能建議) */}
-              <div className="bg-[#FDFBF7] p-6 rounded-[20px] border border-slate-100 flex flex-col sm:flex-row items-center gap-6 group hover:border-[#A7C7E7]/30 transition-all">
-                <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-[#A7C7E7] shadow-sm flex-shrink-0 group-hover:scale-110 transition-transform">
-                  <AlertCircle size={28} />
+              {/* AI 建議卡片 */}
+              <div className="bg-[#FDFBF7] p-8 md:p-10 rounded-[2.5rem] border border-slate-100 flex flex-col sm:flex-row items-center gap-8 group hover:border-[#A7C7E7]/30 transition-all shadow-sm">
+                <div className="w-16 h-16 bg-white rounded-3xl flex items-center justify-center text-[#A7C7E7] shadow-sm flex-shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                  <AlertCircle size={32} />
                 </div>
-                <div className="flex-grow space-y-1">
-                  <p className="text-sm font-black text-slate-800">成長週報：生長曲線觀察中</p>
-                  <p className="text-xs text-slate-500 font-medium leading-relaxed">
-                    小羽目前的成長軌跡穩定在 75% 百分位。建議持續每日補充 <Link to="/product/growfly-30" className="text-[#A7C7E7] underline font-black">高飛星</Link> 搭配益生菌，確保生長原料吸收更精準。
+                <div className="flex-grow space-y-3 text-center sm:text-left">
+                  <p className="text-lg font-black text-slate-800">成長週報：生長曲線觀察中</p>
+                  <p className="text-sm md:text-base text-slate-500 font-medium leading-relaxed">
+                    小羽目前的成長軌跡穩定在 <span className="text-[#A7C7E7] font-[900] underline decoration-2 underline-offset-4">75%</span> 百分位。建議持續每日補充 <Link to="/product/growfly-30" className="text-slate-800 underline font-[900] hover:text-[#A7C7E7] transition-colors">高飛星</Link>，並於晚間 10 點前就寢以掌握黃金分泌期。
                   </p>
                 </div>
-                <ChevronRight size={20} className="text-slate-300 group-hover:translate-x-1 transition-transform" />
+                <ChevronRight size={28} className="hidden sm:block text-slate-200 group-hover:translate-x-2 group-hover:text-slate-400 transition-all" />
               </div>
             </div>
 
-            {/* 3. Orders & Subscription (交易與帳戶管理) */}
-            <div className="grid sm:grid-cols-2 gap-8">
-              <div className="bg-white rounded-[20px] p-8 shadow-sm border border-slate-50 space-y-6">
-                <h3 className="text-xl font-black text-slate-800 flex items-center space-x-3">
-                  <Package size={20} className="text-[#A7C7E7]" />
-                  <span>近期訂單</span>
-                </h3>
-                <div className="space-y-4">
+            {/* 3. 訂單與定期購區 */}
+            <div className="grid sm:grid-cols-2 gap-8 md:gap-12">
+              {/* 訂單歷史 */}
+              <div className="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-sm border border-slate-50 space-y-10">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xl font-black text-slate-800 flex items-center space-x-4">
+                    <Package size={24} className="text-[#A7C7E7]" />
+                    <span>近期訂單</span>
+                  </h3>
+                </div>
+                <div className="space-y-5">
                   {ORDER_HISTORY.map(order => (
-                    <div key={order.id} className="flex justify-between items-center p-4 bg-slate-50 rounded-2xl hover:bg-white hover:shadow-md transition-all border border-transparent hover:border-slate-100">
-                      <div>
-                        <p className="text-xs font-black text-slate-800">{order.id} {order.isSubscription && <span className="text-[8px] px-2 py-0.5 bg-[#A7C7E7]/20 text-[#A7C7E7] rounded-full ml-2">定期購</span>}</p>
-                        <p className="text-[10px] text-slate-400 font-medium">{order.date}</p>
+                    <div key={order.id} className="flex justify-between items-center p-6 bg-slate-50 rounded-[2rem] hover:bg-white hover:shadow-xl transition-all border border-transparent hover:border-slate-100 group">
+                      <div className="min-w-0">
+                        <p className="text-sm font-black text-slate-800 flex items-center gap-3">
+                          {order.id} 
+                          {order.isSubscription && (
+                            <span className="text-[9px] px-2.5 py-1 bg-[#A7C7E7]/20 text-[#A7C7E7] rounded-full font-[900] uppercase tracking-wider">定期購</span>
+                          )}
+                        </p>
+                        <p className="text-[11px] text-slate-400 font-[900] mt-1.5 uppercase tracking-[0.1em]">{order.date}</p>
                       </div>
-                      <div className="text-right">
-                        <p className="text-sm font-black text-slate-800">NT$ {order.total}</p>
-                        <p className="text-[10px] text-emerald-500 font-black">已完成</p>
+                      <div className="text-right flex-shrink-0">
+                        <p className="text-base font-black text-slate-800">NT$ {order.total.toLocaleString()}</p>
+                        <p className="text-[11px] text-emerald-500 font-black mt-1">已送達</p>
                       </div>
                     </div>
                   ))}
                 </div>
-                <button className="w-full py-3 text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-slate-800 transition-colors">查看所有歷史訂單</button>
+                <button className="w-full pt-4 text-[11px] font-[900] text-slate-300 uppercase tracking-[0.3em] hover:text-slate-800 transition-colors">查看更多歷史紀錄 →</button>
               </div>
 
-              <div className="bg-slate-900 rounded-[20px] p-8 text-white space-y-6 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 blur-2xl" />
-                <h3 className="text-xl font-black flex items-center space-x-3 relative z-10">
-                  <RefreshCcw size={20} className="text-[#A7C7E7]" />
+              {/* 定期購狀態 */}
+              <div className="bg-slate-900 rounded-[2.5rem] p-8 md:p-10 text-white space-y-10 relative overflow-hidden shadow-2xl">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-3xl pointer-events-none" />
+                <h3 className="text-xl font-black flex items-center space-x-4 relative z-10">
+                  <RefreshCcw size={24} className="text-[#A7C7E7]" />
                   <span>定期購管理</span>
                 </h3>
-                <div className="bg-white/10 backdrop-blur-md p-6 rounded-2xl space-y-4 relative z-10">
-                   <div>
-                     <p className="text-[10px] font-black text-white/50 uppercase tracking-widest">下期配送日</p>
-                     <p className="text-xl font-black">2025 . 02 . 15</p>
+                <div className="bg-white/10 backdrop-blur-md p-8 rounded-[2rem] space-y-8 relative z-10 border border-white/5">
+                   <div className="space-y-2 text-center sm:text-left">
+                     <p className="text-[10px] font-black text-white/40 uppercase tracking-[0.3em]">下期自動配送</p>
+                     <p className="text-3xl font-black tracking-tighter">2025 . 02 . 15</p>
                    </div>
-                   <div className="pt-4 border-t border-white/10 space-y-3">
-                      <button className="w-full py-3 bg-white text-slate-900 rounded-full font-black text-xs hover:bg-[#A7C7E7] transition-all">暫停一期配送</button>
-                      <button className="w-full py-3 text-[10px] font-black text-white/50 uppercase tracking-widest hover:text-white transition-colors">更改收件資訊</button>
+                   <div className="pt-8 border-t border-white/10 space-y-4">
+                      <button className="w-full py-5 bg-white text-slate-900 rounded-full font-black text-sm hover:bg-[#A7C7E7] transition-all shadow-xl active:scale-95">暫停本期配送</button>
+                      <button className="w-full py-2 text-[11px] font-[900] text-white/30 uppercase tracking-[0.2em] hover:text-white transition-colors">修改配送地址與週期</button>
                    </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Sidebar Area */}
-          <div className="space-y-10">
-            {/* Quick Input (快速記錄) */}
-            <div className="bg-white rounded-[20px] p-8 shadow-sm border border-slate-50 space-y-8">
-              <h3 className="text-xl font-black text-slate-800">快速記錄成長</h3>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">目前身高 (CM)</label>
+          {/* 4. 側邊欄區 (Sidebar) */}
+          <div className="lg:col-span-4 space-y-8 md:space-y-12">
+            
+            {/* 快速記錄 */}
+            <div className="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-sm border border-slate-50 space-y-10">
+              <h3 className="text-2xl font-black text-slate-800 tracking-tight">快速記錄成長</h3>
+              <form onSubmit={handleSubmit} className="space-y-8">
+                <div className="space-y-4">
+                  <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2">身高 HEIGHT (CM)</label>
                   <div className="relative">
-                    <Ruler className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
+                    <Ruler className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-200" size={22} />
                     <input 
                       type="number" 
                       step="0.1"
                       value={height}
                       onChange={(e) => setHeight(e.target.value)}
-                      placeholder="輸入身高" 
-                      className="w-full bg-slate-50 px-14 py-4 rounded-full outline-none focus:ring-4 focus:ring-[#A7C7E7]/10 transition-all font-black text-lg"
+                      placeholder="121.5" 
+                      className="w-full bg-slate-50 px-16 py-6 rounded-[2rem] outline-none focus:ring-4 focus:ring-[#A7C7E7]/10 border border-transparent focus:border-[#A7C7E7]/30 transition-all font-black text-xl text-slate-800 placeholder:text-slate-200"
                     />
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">目前體重 (KG)</label>
+                <div className="space-y-4">
+                  <label className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2">體重 WEIGHT (KG)</label>
                   <div className="relative">
-                    <Weight className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
+                    <Weight className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-200" size={22} />
                     <input 
                       type="number" 
                       step="0.1"
                       value={weight}
                       onChange={(e) => setWeight(e.target.value)}
-                      placeholder="輸入體重" 
-                      className="w-full bg-slate-50 px-14 py-4 rounded-full outline-none focus:ring-4 focus:ring-[#A7C7E7]/10 transition-all font-black text-lg"
+                      placeholder="23.0" 
+                      className="w-full bg-slate-50 px-16 py-6 rounded-[2rem] outline-none focus:ring-4 focus:ring-[#A7C7E7]/10 border border-transparent focus:border-[#A7C7E7]/30 transition-all font-black text-xl text-slate-800 placeholder:text-slate-200"
                     />
                   </div>
                 </div>
                 <button 
                   type="submit"
-                  className="w-full bg-slate-800 text-white py-4 rounded-full font-black text-base hover:bg-slate-700 transition-all shadow-xl"
+                  className="w-full bg-slate-800 text-white py-6 rounded-full font-black text-lg hover:bg-slate-700 transition-all shadow-2xl shadow-slate-200 active:scale-95"
                 >
-                  + 紀錄今天數據
+                  確認紀錄數據
                 </button>
               </form>
             </div>
 
-            {/* Profile Settings (檔案設定) */}
-            <div className="bg-white rounded-[20px] p-8 shadow-sm border border-slate-50 space-y-8">
-               <h3 className="text-xl font-black text-slate-800">成長檔案</h3>
+            {/* 檔案選單 */}
+            <div className="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-sm border border-slate-50 space-y-10">
+               <h3 className="text-2xl font-black text-slate-800 tracking-tight">檔案與設定</h3>
                <div className="space-y-4">
                   {[
-                    /* Missing User icon was added to imports to fix this line */
-                    { icon: <User size={18} />, label: '孩子檔案設定', path: '#' },
-                    { icon: <Star size={18} />, label: '我的優惠券', path: '#' },
-                    { icon: <Settings size={18} />, label: '帳號資訊修改', path: '#' },
-                    { icon: <HelpCircle size={18} />, label: '聯絡專業客服', path: '#' }
+                    { icon: <User size={22} />, label: '孩子成長檔案設定', path: '#' },
+                    { icon: <Star size={22} />, label: '專屬優惠券專區', path: '#' },
+                    { icon: <Settings size={22} />, label: '個人帳號與資安', path: '#' },
+                    { icon: <HelpCircle size={22} />, label: '聯繫成長顧問', path: '#' }
                   ].map((item, i) => (
-                    <button key={i} className="w-full flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 transition-all group text-left">
-                       <div className="flex items-center space-x-4">
-                          <div className="text-slate-300 group-hover:text-[#A7C7E7] transition-colors">{item.icon}</div>
-                          <span className="text-sm font-bold text-slate-600 group-hover:text-slate-800">{item.label}</span>
+                    <button 
+                      key={i} 
+                      className="w-full flex items-center justify-between p-6 rounded-[2rem] hover:bg-slate-50 transition-all group border border-transparent hover:border-slate-100"
+                    >
+                       <div className="flex items-center space-x-5 min-w-0">
+                          <div className="text-slate-200 group-hover:text-[#A7C7E7] transition-colors flex-shrink-0">{item.icon}</div>
+                          <span className="text-sm md:text-base font-black text-slate-600 group-hover:text-slate-800 truncate">{item.label}</span>
                        </div>
-                       <ChevronRight size={16} className="text-slate-200 group-hover:text-slate-400 group-hover:translate-x-1 transition-all" />
+                       <ChevronRight size={20} className="text-slate-100 group-hover:text-slate-400 group-hover:translate-x-1 transition-all flex-shrink-0" />
                     </button>
                   ))}
                </div>
@@ -257,11 +300,13 @@ const Member: React.FC = () => {
         </div>
       </div>
 
-      {/* Success Toast */}
+      {/* 紀錄成功提示 (Toast) */}
       {showToast && (
-        <div className="fixed bottom-12 left-1/2 -translate-x-1/2 bg-slate-800 text-white px-10 py-5 rounded-full shadow-2xl flex items-center space-x-4 z-50 animate-in fade-in slide-in-from-bottom-8 duration-500">
-          <CheckCircle2 size={24} className="text-[#A7C7E7]" />
-          <span className="font-black text-lg">紀錄成功！曲線已更新。</span>
+        <div className="fixed bottom-12 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-12 py-6 rounded-full shadow-2xl flex items-center space-x-5 z-[100] animate-in fade-in slide-in-from-bottom-12 duration-500">
+          <div className="w-10 h-10 rounded-full bg-[#A7C7E7] flex items-center justify-center text-slate-900">
+            <CheckCircle2 size={24} strokeWidth={3} />
+          </div>
+          <span className="font-black text-lg">數據已成功儲存！</span>
         </div>
       )}
     </div>

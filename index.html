@@ -35,10 +35,69 @@
       .animate-float {
         animation: float 4s ease-in-out infinite;
       }
-      /* Vertical Rhythm & Container Spacing */
+      
+      /* 科學模組進階動畫 */
+      @keyframes dna-rotate {
+        from { transform: rotate(0deg) scale(1); }
+        50% { transform: rotate(180deg) scale(1.1); }
+        to { transform: rotate(360deg) scale(1); }
+      }
+      .animate-dna {
+        animation: dna-rotate 20s linear infinite;
+      }
+
+      @keyframes hologram-rotate {
+        from { transform: rotateY(0deg) rotateX(20deg); }
+        to { transform: rotateY(360deg) rotateX(20deg); }
+      }
+      .animate-hologram {
+        animation: hologram-rotate 25s linear infinite;
+        transform-style: preserve-3d;
+      }
+
+      @keyframes laser-scan {
+        0% { top: 0%; opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { top: 100%; opacity: 0; }
+      }
+      .animate-scan {
+        position: absolute;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, #4CAF50, transparent);
+        box-shadow: 0 0 20px #4CAF50, 0 0 10px #4CAF50;
+        z-index: 20;
+        animation: laser-scan 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      }
+
+      @keyframes neon-pulse {
+        0%, 100% { opacity: 0.6; box-shadow: 0 0 5px #4ADE80; }
+        50% { opacity: 1; box-shadow: 0 0 20px #4ADE80; }
+      }
+      .animate-neon {
+        animation: neon-pulse 2s ease-in-out infinite;
+      }
+
+      @keyframes bar-highlight {
+        0%, 100% { background-color: #F0F2F5; }
+        50% { background-color: #C1D7C1; }
+      }
+      .animate-bar-sync {
+        animation: bar-highlight 3s linear infinite;
+      }
+
+      @keyframes orbit-rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      .animate-orbit {
+        animation: orbit-rotate 12s linear infinite;
+      }
+
       .section-gap {
-        padding-top: clamp(80px, 10vh, 160px);
-        padding-bottom: clamp(80px, 10vh, 160px);
+        padding-top: clamp(100px, 15vh, 200px);
+        padding-bottom: clamp(100px, 15vh, 200px);
       }
       .container-custom {
         width: 100%;
@@ -48,20 +107,24 @@
         padding-left: 24px;
         padding-right: 24px;
       }
-      @media (min-width: 768px) {
-        .container-custom {
-          padding-left: 60px;
-          padding-right: 60px;
-        }
+      
+      /* 深海實驗室專屬樣式 */
+      .bg-deep-lab {
+        background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
       }
-      /* Text reading width */
-      .prose-container {
-        max-width: 720px;
-        margin-left: auto;
-        margin-right: auto;
+      .glass-hud {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
       }
-      p, h1, h2, h3, h4 {
-        line-height: 1.6;
+      .text-neon {
+        color: #4ADE80;
+        text-shadow: 0 0 15px rgba(74, 222, 128, 0.5);
+      }
+      .fiber-optic {
+        background: linear-gradient(90deg, #A7C7E7, transparent);
+        box-shadow: 0 0 15px rgba(167, 199, 231, 0.4);
       }
     </style>
   <script type="importmap">
