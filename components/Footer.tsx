@@ -22,23 +22,24 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-[#F5F5F0] pt-20 pb-10">
       <div className="container-custom">
-        {/* Top: Newsletter Section */}
+        {/* Top: LINE CTA Section (重塑原本的訂閱區塊) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center border-b border-slate-200 pb-16 mb-16">
-          <div className="space-y-4">
-            <h3 className="text-2xl font-black text-slate-800 tracking-tight">加入 GrowFly 成長圈</h3>
-            <p className="text-slate-600 font-medium leading-relaxed">
-              訂閱電子報，獲取最新科學育兒資訊與會員專屬禮遇。
+          <div className="space-y-4 text-center md:text-left">
+            <h3 className="text-3xl md:text-4xl font-black text-slate-800 tracking-tight">加入 Growway 官方 LINE</h3>
+            <p className="text-slate-600 font-bold text-lg leading-relaxed">
+              領取 $100 首購金，再享營養師一對一諮詢。
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <input 
-              type="email" 
-              placeholder="請輸入您的 Email" 
-              className="bg-white px-8 py-4 rounded-full text-sm flex-grow outline-none focus:ring-2 focus:ring-[#A7C7E7]/30 transition-all border border-transparent focus:border-[#A7C7E7]"
-            />
-            <button className="bg-[#A7C7E7] text-white px-10 py-4 rounded-full font-black text-sm hover:bg-[#8eb6dd] transition-all shadow-lg shadow-[#A7C7E7]/20">
-              訂閱
-            </button>
+          <div className="flex justify-center md:justify-end">
+            <a 
+              href="https://line.me/R/ti/p/@growway" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="bg-[#06C755] text-white px-12 py-5 rounded-full font-black text-xl hover:bg-[#05b34c] transition-all shadow-xl shadow-[#06C755]/20 flex items-center space-x-4 active:scale-95 group"
+            >
+              <MessageCircle size={28} className="fill-current group-hover:rotate-12 transition-transform" />
+              <span>立即加入好友</span>
+            </a>
           </div>
         </div>
 
@@ -46,7 +47,7 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Column 1: About */}
           <div className="space-y-6">
-            <h4 className="font-black text-slate-800 uppercase tracking-widest text-xs">關於 GrowFly</h4>
+            <h4 className="font-black text-slate-800 uppercase tracking-widest text-xs">關於 GrowFLY</h4>
             <ul className="text-sm font-bold text-slate-500 space-y-3">
               <li><Link to="/about" className="hover:text-[#A7C7E7] transition-colors">品牌故事</Link></li>
               <li><Link to="/science" className="hover:text-[#A7C7E7] transition-colors">科學實證</Link></li>
@@ -98,7 +99,7 @@ const Footer: React.FC = () => {
                 </div>
               </div>
               <div className="flex items-center space-x-4 pt-2">
-                <a href="https://line.me" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-slate-400 hover:text-[#A7C7E7] transition-all shadow-sm">
+                <a href="https://line.me/R/ti/p/@growway" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-slate-400 hover:text-[#06C755] transition-all shadow-sm">
                   <MessageCircle size={16} />
                 </a>
                 <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-slate-400 hover:text-[#A7C7E7] transition-all shadow-sm">
