@@ -6,12 +6,12 @@ const About: React.FC = () => {
     <div className="pt-32 md:pt-48 pb-32 bg-[#FDFBF7]">
       <section className="container-custom">
         <div className="flex flex-col md:flex-row items-center gap-16 md:gap-24">
-          {/* Founder Photo - Enhanced with placeholder logic */}
+          {/* Founder Photo - 依照指示更換為新連結 */}
           <div className="w-full md:w-1/2">
             <div className="aspect-[4/5] rounded-[3rem] md:rounded-[5rem] overflow-hidden shadow-2xl relative group border-8 border-white bg-slate-200">
                <div className="absolute inset-0 bg-gradient-to-br from-slate-100 to-slate-200 animate-pulse" />
                <img 
-                src="https://drive.google.com/thumbnail?id=1zi4a4SoavCWVB0zPPpUx9uEPSzBa4J7d&sz=w1200" 
+                src="https://drive.google.com/thumbnail?id=1XBguEP6u2eNYzvNznAQW9awnga1TuTPF&sz=w1200" 
                 alt="銀禾生醫 創辦團隊" 
                 className="relative z-10 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
                 onError={(e) => {
@@ -70,7 +70,7 @@ const About: React.FC = () => {
               </div>
               <div className="space-y-4">
                 <h4 className="text-xl md:text-2xl font-black text-slate-800">科學引領研發</h4>
-                <p className="text-slate-500 font-medium leading-relaxed text-sm md:text-base">銀禾生醫基於國際臨床文獻與專利配方，拒絕來源不明的添加。每一項成分皆有實證支持。</p>
+                <p className="text-slate-500 font-medium leading-relaxed text-sm md:text-base">銀禾生醫基於國際臨床文戶與專利配方，拒絕來源不明的添加。每一項成分皆有實證支持。</p>
               </div>
             </div>
             <div className="space-y-8 group">

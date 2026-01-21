@@ -18,8 +18,8 @@ const Home: React.FC<HomeProps> = ({ onAddToCart }) => {
   // 依照指示：首頁專用的去背商品照
   const homeTransparentProductImage = "https://lh3.googleusercontent.com/d/1isD-VxKfXUPhqR48GAg__dD9jKVOaDBa";
   
-  // 用戶提供的 Cloudinary 影片連結
-  const heroVideoUrl = "https://res.cloudinary.com/dxuwaer7y/video/upload/v1769012366/15SS_bcb6mh.mov";
+  // 用戶提供的最新 Cloudinary 影片連結 (4K 版本)
+  const heroVideoUrl = "https://res.cloudinary.com/dxuwaer7y/video/upload/v1769013809/15s_4k_iosjry.mov";
 
   return (
     <div className="space-y-0">
