@@ -31,24 +31,33 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onCartClick }) => {
   const isHome = location.pathname === '/';
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
 
-  // 品牌 Logo 組件
-  const Logo = ({ className = "" }: { className?: string }) => (
-    <div className={`flex items-center space-x-3 ${className}`}>
-      <img 
-        src="https://drive.google.com/uc?id=1cJGWr5-GBdsO0MxpWB01ZseaohfK-gEB" 
-        alt="GrowFly Logo" 
-        className="w-10 h-10 md:w-12 md:h-12 object-contain"
-      />
-      <span className="text-2xl font-[900] tracking-tighter">GrowFly</span>
-    </div>
-  );
+  // 品牌 Logo 組件 - 處理精確的黑白顏色切換
+  const Logo = ({ className = "", forceDark = false }: { className?: string, forceDark?: boolean }) => {
+    // 判斷當前狀態：是否應該呈現「黑色」
+    // 如果是強迫黑色 (如頁尾、登入頁) OR 已捲動 OR 不在首頁
+    const shouldBeBlack = forceDark || isScrolled || !isHome;
+    
+    return (
+      <div className={`flex items-center justify-center transition-all duration-500 ${className}`}>
+        <img 
+          src="https://lh3.googleusercontent.com/d/1cJGWr5-GBdsO0MxpWB01ZseaohfK-gEB" 
+          alt="GrowFly Logo" 
+          className={`w-20 h-20 md:w-32 md:h-32 object-contain transition-all duration-700 hover:scale-105 ${
+            shouldBeBlack 
+              ? 'brightness-0' // 強制變為純黑色，與文字一致
+              : 'brightness-0 invert' // 先變黑再反轉，確保變為純白色
+          }`}
+        />
+      </div>
+    );
+  };
 
   if (isAuthPage) {
     return (
-      <header className="fixed top-0 left-0 right-0 z-50 h-[80px] bg-transparent flex items-center">
+      <header className="fixed top-0 left-0 right-0 z-50 h-[100px] bg-transparent flex items-center">
         <div className="container-custom flex justify-center md:justify-start">
           <Link to="/" className="hover:opacity-80 transition-opacity">
-            <Logo className="text-slate-800" />
+            <Logo forceDark={true} />
           </Link>
         </div>
       </header>
@@ -56,25 +65,23 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onCartClick }) => {
   }
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled ? 'h-[60px] md:h-[70px] glass-nav shadow-sm border-b border-slate-100/50' : 'h-[60px] md:h-[100px] bg-transparent'
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      isScrolled ? 'h-[70px] md:h-[90px] glass-nav shadow-sm border-b border-slate-100/50' : 'h-[80px] md:h-[130px] bg-transparent'
     }`}>
       <div className="container-custom h-full flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="hover:opacity-80 transition-opacity">
-          <Logo className={`transition-colors duration-300 ${
-            isScrolled || !isHome ? 'text-slate-800' : 'text-slate-800 md:text-white'
-          }`} />
+        <Link to="/" className="hover:opacity-80 transition-all duration-300">
+          <Logo />
         </Link>
 
         {/* Center Menu (Desktop) */}
-        <nav className="hidden md:flex items-center space-x-10">
+        <nav className="hidden md:flex items-center space-x-12">
           {navLinks.map((link) => (
             <Link 
               key={link.path} 
               to={link.path} 
-              className={`text-[11px] font-black tracking-widest uppercase transition-colors hover:text-[#A7C7E7] ${
-                isScrolled || !isHome ? 'text-slate-600' : 'text-slate-600 md:text-white/90'
+              className={`text-[11px] font-black tracking-[0.2em] uppercase transition-colors hover:text-[#A7C7E7] ${
+                isScrolled || !isHome ? 'text-slate-800' : 'text-white/90 text-shadow-sm'
               }`}
             >
               {link.name}
@@ -83,15 +90,15 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onCartClick }) => {
         </nav>
 
         {/* Action Menu */}
-        <div className={`flex items-center space-x-6 ${isScrolled || !isHome ? 'text-slate-600' : 'text-slate-600 md:text-white'}`}>
+        <div className={`flex items-center space-x-6 md:space-x-8 ${isScrolled || !isHome ? 'text-slate-800' : 'text-white'}`}>
           <Link to="/login" className="hover:text-[#A7C7E7] transition-colors hidden sm:block">
-            <User size={20} strokeWidth={2.5} />
+            <User size={22} strokeWidth={2.5} />
           </Link>
           <button className="hover:text-[#A7C7E7] transition-colors">
-            <Search size={20} strokeWidth={2.5} />
+            <Search size={22} strokeWidth={2.5} />
           </button>
           <button onClick={onCartClick} className="relative hover:text-[#A7C7E7] transition-colors">
-            <ShoppingCart size={20} strokeWidth={2.5} />
+            <ShoppingCart size={22} strokeWidth={2.5} />
             {cartCount > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-400 text-white text-[9px] w-4.5 h-4.5 rounded-full flex items-center justify-center font-black shadow-sm">
                 {cartCount}
@@ -99,7 +106,7 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onCartClick }) => {
             )}
           </button>
           <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden p-2">
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
       </div>

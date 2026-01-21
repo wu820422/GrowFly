@@ -10,13 +10,12 @@ const Footer: React.FC = () => {
   const closeModals = () => setModalType('none');
 
   const Logo = ({ className = "" }: { className?: string }) => (
-    <div className={`flex items-center space-x-2 ${className}`}>
+    <div className={`flex items-center ${className}`}>
       <img 
-        src="https://drive.google.com/uc?id=1cJGWr5-GBdsO0MxpWB01ZseaohfK-gEB" 
+        src="https://lh3.googleusercontent.com/d/1cJGWr5-GBdsO0MxpWB01ZseaohfK-gEB" 
         alt="GrowFly Logo" 
-        className="w-8 h-8 object-contain"
+        className="w-16 h-16 md:w-24 md:h-24 object-contain transition-transform hover:scale-105 grayscale brightness-0 contrast-200"
       />
-      <span className="text-xl font-[900] tracking-tighter">GrowFly</span>
     </div>
   );
 
@@ -117,7 +116,7 @@ const Footer: React.FC = () => {
         <div className="flex flex-col md:flex-row justify-between items-center pt-10 border-t border-slate-200 gap-8">
           <div className="flex flex-col md:flex-row items-center gap-8">
             <Link to="/" className="hover:opacity-80 transition-opacity">
-              <Logo className="text-slate-800" />
+              <Logo />
             </Link>
             <div className="text-[10px] md:text-xs text-slate-400 font-bold text-center md:text-left space-y-1">
               <p>© 2026 銀禾生醫有限公司 統一編號:60687388 All Rights Reserved.</p>

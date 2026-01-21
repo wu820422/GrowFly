@@ -7,33 +7,34 @@ const Login: React.FC = () => {
   const [showPassword, setShowPassword] = React.useState(false);
   const navigate = useNavigate();
 
-  const Logo = ({ className = "" }: { className?: string }) => (
-    <div className={`flex items-center space-x-3 ${className}`}>
+  const Logo = ({ className = "", forceWhite = false }: { className?: string, forceWhite?: boolean }) => (
+    <div className={`flex items-center justify-center ${className}`}>
       <img 
-        src="https://drive.google.com/uc?id=1cJGWr5-GBdsO0MxpWB01ZseaohfK-gEB" 
+        src="https://lh3.googleusercontent.com/d/1cJGWr5-GBdsO0MxpWB01ZseaohfK-gEB" 
         alt="GrowFly Logo" 
-        className="w-12 h-12 object-contain"
+        className={`w-24 h-24 md:w-36 md:h-36 object-contain transition-all duration-700 hover:scale-105 ${
+          forceWhite ? 'brightness-0 invert' : ''
+        }`}
       />
-      <span className="text-2xl font-[900] tracking-tighter">GrowFly</span>
     </div>
   );
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-[#FDFBF7]">
-      {/* Header Logo for Mobile/Auth Page */}
-      <header className="fixed top-0 left-0 right-0 z-50 h-[80px] bg-transparent flex items-center md:hidden">
+      {/* Header Logo for Mobile */}
+      <header className="fixed top-0 left-0 right-0 z-50 h-[100px] bg-transparent flex items-center md:hidden">
         <div className="container-custom flex justify-center">
           <Link to="/">
-            <Logo className="text-slate-800" />
+            <Logo />
           </Link>
         </div>
       </header>
 
       {/* Left: Brand Visual (Desktop Only) */}
       <div className="hidden md:block md:w-1/2 relative overflow-hidden">
-        <div className="absolute top-10 left-10 z-20">
+        <div className="absolute top-12 left-12 z-20">
           <Link to="/">
-            <Logo className="text-white" />
+            <Logo forceWhite={true} />
           </Link>
         </div>
         <img 
@@ -43,13 +44,13 @@ const Login: React.FC = () => {
         />
         <div className="absolute inset-0 bg-slate-900/20" />
         <div className="absolute bottom-20 left-20 text-white space-y-4 max-w-md">
-           <h2 className="text-5xl font-black leading-tight tracking-tight">科學守護，<br />見證成長的每一刻。</h2>
+           <h2 className="text-5xl font-black leading-tight tracking-tight text-shadow-lg">科學守護，<br />見證成長的每一刻。</h2>
            <p className="text-xl font-medium text-white/80">加入 GrowFly，開啟專屬您孩子的健康紀錄系統。</p>
         </div>
       </div>
 
       {/* Right: Form Area */}
-      <div className="w-full md:w-1/2 flex items-center justify-center p-8 md:p-20 pt-32">
+      <div className="w-full md:w-1/2 flex items-center justify-center p-8 md:p-20 pt-40">
         <div className="w-full max-w-md space-y-10 animate-in fade-in slide-in-from-right-8 duration-700">
           <div className="text-center md:text-left space-y-2">
             <h1 className="text-4xl font-black text-slate-800 tracking-tight">歡迎回來</h1>

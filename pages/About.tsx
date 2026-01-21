@@ -3,77 +3,77 @@ import React from 'react';
 
 const About: React.FC = () => {
   return (
-    <div className="pt-40 pb-32">
-      <section className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row items-center gap-24">
+    <div className="pt-32 md:pt-48 pb-32">
+      <section className="container-custom">
+        <div className="flex flex-col md:flex-row items-center gap-16 md:gap-24">
           {/* Founder Photo */}
           <div className="w-full md:w-1/2">
-            <div className="aspect-[4/5] rounded-[5rem] overflow-hidden shadow-2xl relative">
+            <div className="aspect-[4/5] rounded-[3rem] md:rounded-[5rem] overflow-hidden shadow-2xl relative group">
                <img 
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=1000" 
-                alt="Founder" 
-                className="w-full h-full object-cover" 
+                src="https://drive.google.com/thumbnail?id=1zi4a4SoavCWVB0zPPpUx9uEPSzBa4J7d&sz=w1200" 
+                alt="GrowFly 創辦團隊" 
+                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/30 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/10 to-transparent pointer-events-none" />
             </div>
           </div>
 
-          {/* Letter */}
+          {/* Letter Content */}
           <div className="w-full md:w-1/2 space-y-12">
-            <h1 className="text-5xl md:text-6xl font-black text-slate-800 tracking-tight leading-tight">致 每一位守護<br />未來的父母</h1>
+            <h1 className="text-5xl md:text-7xl font-black text-slate-800 tracking-tight leading-[1.1]">致 每一位守護<br />未來的父母</h1>
             
-            <div className="border-l-[6px] border-[#A7C7E7] pl-10 py-6 space-y-6">
-              <p className="text-3xl font-black text-slate-800 leading-tight tracking-tight">
+            <div className="border-l-[6px] border-[#A7C7E7] pl-8 md:pl-10 py-6 space-y-6">
+              <p className="text-2xl md:text-3xl font-black text-slate-800 leading-tight tracking-tight">
                 「守護孩子，是我們唯一的堅持。」
               </p>
-              <p className="text-xl text-slate-500 italic font-medium leading-relaxed">
+              <p className="text-lg md:text-xl text-slate-500 italic font-medium leading-relaxed">
                 在孩子成長的每一哩路，我們不斷自問：什麼才是他們真正需要的？我們以此為起點，致力提供最安全、有效，且讓家長全然放心的選擇。
               </p>
             </div>
 
-            <div className="space-y-8 text-lg text-slate-600 font-medium leading-relaxed">
+            <div className="space-y-8 text-base md:text-lg text-slate-600 font-medium leading-relaxed">
               <p>
                 從嚴選配方的研發、原物料的溯源到生產工廠的最高標準控管，每一個細節，我們絕不妥協；每一個品質，我們從不將就。
               </p>
               <p>
                 GrowFly 的誕生，是源於一份不願妥協的父愛與母愛。我們相信，營養不應是堆砌，而是精準的給予。剔除多餘的香料與糖分，只保留最純粹的成長能量。
               </p>
-              <div className="pt-12">
-                <p className="text-xs text-slate-400 font-black tracking-widest uppercase mb-3">GrowFly 創辦人</p>
-                <div className="text-4xl font-black text-slate-800 tracking-tighter border-b-2 border-slate-200 pb-3 inline-block">
-                  James & Olivia
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Philosophy */}
-      <section className="mt-48 bg-white py-40 overflow-hidden relative">
-        <div className="container mx-auto px-6 text-center space-y-28">
-          <h2 className="text-4xl md:text-5xl font-black text-slate-800 tracking-tight">我們的三大核心堅持</h2>
-          <div className="grid md:grid-cols-3 gap-20 relative">
+      {/* Philosophy Section */}
+      <section className="mt-40 md:mt-56 bg-white py-32 md:py-48 overflow-hidden relative border-t border-slate-50">
+        <div className="container-custom text-center space-y-20 md:space-y-32">
+          <h2 className="text-3xl md:text-5xl font-black text-slate-800 tracking-tight">我們的三大核心堅持</h2>
+          <div className="grid md:grid-cols-3 gap-16 md:gap-20">
             <div className="space-y-8 group">
-              <div className="w-24 h-24 bg-[#A7C7E7]/10 rounded-[2rem] mx-auto flex items-center justify-center text-[#A7C7E7] transition-transform group-hover:rotate-6">
-                <span className="text-3xl font-black">01</span>
+              <div className="w-20 h-20 md:w-24 md:h-24 bg-[#A7C7E7]/10 rounded-[2rem] mx-auto flex items-center justify-center text-[#A7C7E7] transition-transform group-hover:rotate-6 shadow-sm">
+                <span className="text-2xl md:text-3xl font-black">01</span>
               </div>
-              <h4 className="text-2xl font-black text-slate-800">科學引領</h4>
-              <p className="text-slate-500 font-medium leading-relaxed">基於國際臨床文獻與專利配方，拒絕來源不明的添加。每一項成分皆有實證支持。</p>
+              <div className="space-y-4">
+                <h4 className="text-xl md:text-2xl font-black text-slate-800">科學引領</h4>
+                <p className="text-slate-500 font-medium leading-relaxed text-sm md:text-base">基於國際臨床文獻與專利配方，拒絕來源不明的添加。每一項成分皆有實證支持。</p>
+              </div>
             </div>
             <div className="space-y-8 group">
-              <div className="w-24 h-24 bg-[#C1D7C1]/20 rounded-[2rem] mx-auto flex items-center justify-center text-emerald-600 transition-transform group-hover:-rotate-6">
-                <span className="text-3xl font-black">02</span>
+              <div className="w-20 h-20 md:w-24 md:h-24 bg-[#C1D7C1]/20 rounded-[2rem] mx-auto flex items-center justify-center text-emerald-600 transition-transform group-hover:-rotate-6 shadow-sm">
+                <span className="text-2xl md:text-3xl font-black">02</span>
               </div>
-              <h4 className="text-2xl font-black text-slate-800">極簡純淨</h4>
-              <p className="text-slate-500 font-medium leading-relaxed">堅持無防腐劑、無人工色素、無西藥檢出。只給孩子身體真正需要的負擔。</p>
+              <div className="space-y-4">
+                <h4 className="text-xl md:text-2xl font-black text-slate-800">極簡純淨</h4>
+                <p className="text-slate-500 font-medium leading-relaxed text-sm md:text-base">堅持無防腐劑、無人工色素、無西藥檢出。只給孩子身體真正需要的補給。</p>
+              </div>
             </div>
             <div className="space-y-8 group">
-              <div className="w-24 h-24 bg-slate-100 rounded-[2rem] mx-auto flex items-center justify-center text-slate-400 transition-transform group-hover:scale-110">
-                <span className="text-3xl font-black">03</span>
+              <div className="w-20 h-20 md:w-24 md:h-24 bg-slate-100 rounded-[2rem] mx-auto flex items-center justify-center text-slate-400 transition-transform group-hover:scale-110 shadow-sm">
+                <span className="text-2xl md:text-3xl font-black">03</span>
               </div>
-              <h4 className="text-2xl font-black text-slate-800">透明溯源</h4>
-              <p className="text-slate-500 font-medium leading-relaxed">公開原料產地與各項 SGS 檢驗報告。我們比您更在意放進孩子口中的每一滴營養。</p>
+              <div className="space-y-4">
+                <h4 className="text-xl md:text-2xl font-black text-slate-800">透明溯源</h4>
+                <p className="text-slate-500 font-medium leading-relaxed text-sm md:text-base">公開原料產地與各項 SGS 檢驗報告。我們比您更在意放進孩子口中的每一滴營養。</p>
+              </div>
             </div>
           </div>
         </div>

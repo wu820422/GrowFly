@@ -68,9 +68,10 @@ const Shop: React.FC<ShopProps> = ({ onAddToCart }) => {
               className="bg-white rounded-[20px] p-6 shadow-sm hover:shadow-xl transition-all group flex flex-col h-full border border-slate-50"
             >
               <Link to={`/product/${product.id}`} className="flex flex-col flex-grow">
+                {/* 修正：移除 p-4 並改為 object-cover 以達成正方形滿版效果 */}
                 <div 
-                  className="aspect-[4/5] rounded-[20px] relative overflow-hidden mb-8"
-                  style={{ backgroundColor: `${product.color}20` }}
+                  className="aspect-square rounded-[20px] relative overflow-hidden mb-8"
+                  style={{ backgroundColor: `${product.color}15` }}
                 >
                   {product.status && (
                     <div className="absolute top-5 left-5 z-20">
@@ -83,7 +84,7 @@ const Shop: React.FC<ShopProps> = ({ onAddToCart }) => {
                   <img 
                     src={product.image} 
                     alt={product.name} 
-                    className="w-full h-full object-cover mix-blend-multiply opacity-90 group-hover:scale-105 transition-transform duration-700"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                   
                   <div className="absolute bottom-5 right-5 w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-slate-400 shadow-lg group-hover:rotate-12 transition-transform">
